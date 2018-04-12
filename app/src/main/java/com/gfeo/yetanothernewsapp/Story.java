@@ -7,17 +7,12 @@ package com.gfeo.yetanothernewsapp;
 class Story {
 
 	private String mTitle;
-	private String mSubtitle;
-	private String mSnippet;
 	private String mDateTime;
 	private String mSection;
 	private String mAuthor;
 
-	Story(String title, String subtitle, String snippet, String dateTime, String author,
-	      String section) {
+	Story(String title, String dateTime, String author, String section) {
 		mTitle = title;
-		mSubtitle = subtitle;
-		mSnippet = snippet;
 		mDateTime = dateTime;
 		mAuthor = author;
 		mSection = section;
@@ -25,14 +20,6 @@ class Story {
 
 	String getTitle() {
 		return mTitle;
-	}
-
-	String getSubtitle() {
-		return mSubtitle;
-	}
-
-	String getSnippet() {
-		return mSnippet;
 	}
 
 	String getDateTime() {
