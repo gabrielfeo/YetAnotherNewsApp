@@ -6,20 +6,20 @@ package com.gfeo.yetanothernewsapp;
 
 class Story {
 
-	private String mTitle;
+	private String mHeadline;
 	private String mDateTime;
 	private String mSection;
 	private String mAuthor;
 
-	Story(String title, String dateTime, String author, String section) {
-		mTitle = title;
+	Story(String headline, String dateTime, String author, String section) {
+		mHeadline = headline;
 		mDateTime = dateTime;
 		mAuthor = author;
 		mSection = section;
 	}
 
 	String getTitle() {
-		return mTitle;
+		return mHeadline;
 	}
 
 	String getDateTime() {
