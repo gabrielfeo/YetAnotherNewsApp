@@ -1,9 +1,6 @@
 package com.gfeo.yetanothernewsapp;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -25,12 +22,6 @@ class QueryUtils {
 
 	private final static String LOG_TAG = QueryUtils.class.getSimpleName();
 	static int numberOfResults;
-	static Integer maxResultsValue;
-	private static String maxResultsKey;
-	private static String orderByKey;
-	private static String orderByValue;
-	private static String langRestrictKey;
-	private static String langRestrictValue;
 
 	//TODO Change to Guardian URL
 	static URL buildQueryUrl(String searchQuery) {
@@ -38,12 +29,7 @@ class QueryUtils {
 		uriBuilder.scheme("https")
 		          .authority("www.googleapis.com")
 		          .appendPath("books").appendPath("v1").appendPath("volumes")
-		          .appendQueryParameter("q", searchQuery)
-		          .appendQueryParameter(maxResultsKey, maxResultsValue.toString())
-		          .appendQueryParameter(orderByKey, orderByValue);
-		if (!langRestrictValue.equals("none")) {
-			uriBuilder.appendQueryParameter(langRestrictKey, langRestrictValue);
-		}
+		          .appendQueryParameter("q", searchQuery);
 		return createUrl(uriBuilder.toString());
 	}
 
@@ -129,10 +115,8 @@ class QueryUtils {
 			JSONObject jsonObject = new JSONObject(jsonResponseString);
 			numberOfResults = jsonObject.getInt("totalItems");
 			JSONArray itemsArray = jsonObject.getJSONArray("items");
-			int maxIterations = (numberOfResults > maxResultsValue)
-			                    ? maxResultsValue
-			                    : numberOfResults;
-			for (int i = 0; i < maxIterations; i++) {
+			//TODO maxiterations
+			for (int i = 0; i < 10; i++) {
 				JSONObject volumeInfo = itemsArray.getJSONObject(i)
 				                                  .getJSONObject("volumeInfo");
 
@@ -186,37 +170,6 @@ class QueryUtils {
 		if (!e.getMessage().contains(permittedExceptionKeyphrase)) {
 			throw new JSONException(e.getMessage());
 		}
-	}
-
-	//TODO Adapt preferences
-	static void getPreferences(Context context) {
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-		//maxResults setting
-		maxResultsKey = context.getString(R.string.preferences_maxresults_key);
-		String maxResultsDefault = context.getString(R.string.preferences_maxresults_default);
-		String maxResultsValueString = sharedPrefs.getString(maxResultsKey, maxResultsDefault);
-		try {
-			int mMaxResults = Integer.parseInt(maxResultsValueString);
-			maxResultsValue = (mMaxResults >= 1 && mMaxResults <= 40)
-			                  ? mMaxResults
-			                  : Integer.parseInt(maxResultsDefault);
-		} catch (NumberFormatException e) {
-			Log.e(LOG_TAG, e.getMessage());
-			maxResultsValue = Integer.parseInt(maxResultsDefault);
-		}
-
-		//orderBy setting
-		orderByKey = context.getString(R.string.preferences_orderby_key);
-		String orderByDefault = context.getString(R.string.preferences_orderby_default);
-		orderByValue = sharedPrefs.getString(orderByKey, orderByDefault);
-
-		//langRestrict setting
-		langRestrictKey = context.getString(R.string.preferences_langrestrict_key);
-		String langRestrictDefault = context.getString(R.string.preferences_langrestrict_default)
-		                                    .toLowerCase();
-		langRestrictValue = sharedPrefs.getString(langRestrictKey, langRestrictDefault);
-
 	}
 
 }
