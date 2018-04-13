@@ -27,9 +27,11 @@ class QueryUtils {
 	static URL buildQueryUrl(String searchQuery) {
 		Uri.Builder uriBuilder = new Uri.Builder();
 		uriBuilder.scheme("https")
-		          .authority("www.googleapis.com")
-		          .appendPath("books").appendPath("v1").appendPath("volumes")
-		          .appendQueryParameter("q", searchQuery);
+		          .authority("content.guardianapis.com")
+		          .appendPath("search")
+		          .appendQueryParameter("show-fields", "headline%2Cbyline")
+		          .appendQueryParameter("page-size", "20")
+		          .appendQueryParameter("api-key", "test");
 		return createUrl(uriBuilder.toString());
 	}
 
