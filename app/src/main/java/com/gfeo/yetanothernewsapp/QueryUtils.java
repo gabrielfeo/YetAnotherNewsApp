@@ -22,6 +22,7 @@ class QueryUtils {
 
 	private final static String LOG_TAG = QueryUtils.class.getSimpleName();
 	static int numberOfResults;
+	static int maxResults;
 
 	//TODO Change to Guardian URL
 	static URL buildQueryUrl(String searchQuery) {
@@ -114,30 +115,32 @@ class QueryUtils {
 
 		//TODO Adapt JSON parser for the Guardian JSON response
 		try {
-			JSONObject jsonObject = new JSONObject(jsonResponseString);
-			numberOfResults = jsonObject.getInt("totalItems");
-			JSONArray itemsArray = jsonObject.getJSONArray("items");
-			//TODO maxiterations
-			for (int i = 0; i < 10; i++) {
-				JSONObject volumeInfo = itemsArray.getJSONObject(i)
-				                                  .getJSONObject("volumeInfo");
+			JSONObject jsonResponse = new JSONObject(jsonResponseString).getJSONObject("response");
+			numberOfResults = jsonResponse.getInt("total");
+			//TODO maxResults settings sets pagesize
+			maxResults = jsonResponse.getInt("pagesize");
+			JSONArray resultsArray = jsonResponse.getJSONArray("results");
+			int maxIterations = (numberOfResults < maxResults)
+			                    ? numberOfResults
+			                    : maxResults;
+			for (int i = 0; i < maxIterations; i++) {
+				JSONObject currentResult = resultsArray.getJSONObject(i);
+				JSONObject requestedFields = currentResult.getJSONObject("fields");
 
 				//Get the story headline
-				storyHeadline = volumeInfo.getString("title");
+				storyHeadline = requestedFields.getString("headline");
 
 				//Try getting the story date and time
 				try {
-					storyDateTime = volumeInfo.getString("publishedDate")
-					                          .substring(0, 4);
+					//TODO format the date and time
+					storyDateTime = currentResult.getString("webPublicationDate");
 				} catch (JSONException e) {
-					//TODO Is this necessary?
 					checkForPermittedJsonException(e);
-					storyDateTime = "No date available";
 				}
 
 				//Get the story author name (if available)
 				try {
-					storyAuthor = "";
+					storyAuthor = requestedFields.getString("byline");
 				} catch (JSONException e) {
 					checkForPermittedJsonException(e);
 					storyAuthor = "Author name not available";
@@ -145,8 +148,7 @@ class QueryUtils {
 
 				//Try getting the link to the story
 				try {
-					storyLink = volumeInfo.getJSONObject("imageLinks")
-					                      .getString("smallThumbnail");
+					storyLink = currentResult.getString("webUrl");
 				} catch (JSONException e) {
 					checkForPermittedJsonException(e);
 				}
