@@ -49,4 +49,7 @@ public class StoriesActivity extends AppCompatActivity {
 		});
 
 	}
+
+
+
 }

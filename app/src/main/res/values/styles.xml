@@ -10,7 +10,7 @@
 	</style>
 
 	<!--Theme for Toolbars across the whole app-->
-	<style name = "AppToolbarTheme" parent = "ThemeOverlay.AppCompat.Dark">
+	<style name = "AppBarTheme" parent = "ThemeOverlay.AppCompat.Dark">
 		<item name = "android:layout_height">wrap_content</item>
 		<item name = "android:layout_width">match_parent</item>
 		<item name = "android:elevation" tools:targetApi = "21">
@@ -20,7 +20,10 @@
 		<item name = "android:background">@color/colorPrimary</item>
 		<item name = "titleTextColor">@color/colorToolbarTitle</item>
 		<item name = "colorControlNormal">@color/colorToolbarTitle</item>
-		<item name = "layout_constraintTop_toTopOf">parent</item>
+	</style>
+
+	<style name = "AppBarTheme.TabLayout">
+		<item name = "tabIndicatorColor">@android:color/white</item>
 	</style>
 
 </resources>
