@@ -5,4 +5,6 @@
 	<string name = "test_section">in Technology</string>
 	<string name = "test_author">by Joshua Topolsky</string>
 	<string name = "test_link">https://www.google.com/</string>
+	<string name = "stories_toolbarmenuitem_search">Search</string>
+	<string name = "stories_toolbarmenuitem_preferences">Preferences</string>
 </resources>
