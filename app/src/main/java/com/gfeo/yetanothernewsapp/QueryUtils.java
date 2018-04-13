@@ -32,6 +32,7 @@ class QueryUtils {
 	private static String langRestrictKey;
 	private static String langRestrictValue;
 
+	//TODO Change to Guardian URL
 	static URL buildQueryUrl(String searchQuery) {
 		Uri.Builder uriBuilder = new Uri.Builder();
 		uriBuilder.scheme("https")
@@ -73,8 +74,8 @@ class QueryUtils {
 			urlConnection.setRequestMethod("GET");
 			urlConnection.connect();
 
-			BooksActivity.httpResponseCode = urlConnection.getResponseCode();
-			if (BooksActivity.httpResponseCode == 200) {
+			int httpResponseCode = urlConnection.getResponseCode();
+			if (httpResponseCode == 200) {
 				inputStream = urlConnection.getInputStream();
 				jsonResponse = readFromStream(inputStream);
 			} else {
@@ -114,15 +115,16 @@ class QueryUtils {
 	}
 
 
-	static ArrayList<Book> parseJsonToArrayList(String jsonResponseString,
-	                                            ArrayList<Book> bookArrayList) {
+	static ArrayList<Story> parseJsonToArrayList(String jsonResponseString,
+	                                             ArrayList<Story> storyArrayList) {
 
-		String bookTitle = "";
-		String bookAuthor = "";
-		String bookPublishedYear = "";
-		String bookCoverThumbnailUriString = "";
-		String bookInfoPageUriString = "";
+		String storyHeadline = "";
+		String storyDateTime = "";
+		String storySection = "";
+		String storyAuthor = "";
+		String storyLink = "";
 
+		//TODO Adapt JSON parser for the Guardian JSON response
 		try {
 			JSONObject jsonObject = new JSONObject(jsonResponseString);
 			numberOfResults = jsonObject.getInt("totalItems");
@@ -134,62 +136,49 @@ class QueryUtils {
 				JSONObject volumeInfo = itemsArray.getJSONObject(i)
 				                                  .getJSONObject("volumeInfo");
 
-				//Get book title
-				bookTitle = volumeInfo.getString("title");
+				//Get the story headline
+				storyHeadline = volumeInfo.getString("title");
 
-				//Try getting the authors' names
+				//Try getting the story date and time
 				try {
-					JSONArray authorsArray = volumeInfo.getJSONArray("authors");
-					StringBuilder authorsStringBuilder = new StringBuilder();
-					authorsStringBuilder.append(authorsArray.getString(0));
-					for (int p = 1; p < authorsArray.length(); p++) {
-						authorsStringBuilder.append(", ")
-						                    .append(authorsArray.getString(p));
-					}
-					bookAuthor = authorsStringBuilder.toString();
+					storyDateTime = volumeInfo.getString("publishedDate")
+					                          .substring(0, 4);
 				} catch (JSONException e) {
+					//TODO Is this necessary?
 					checkForPermittedJsonException(e);
-					bookAuthor = "Author name not available";
+					storyDateTime = "No date available";
 				}
 
-				//Try getting the book published year
+				//Get the story author name (if available)
 				try {
-					bookPublishedYear = volumeInfo.getString("publishedDate")
-					                              .substring(0, 4);
+					storyAuthor = "";
 				} catch (JSONException e) {
 					checkForPermittedJsonException(e);
-					bookPublishedYear = "No date available";
+					storyAuthor = "Author name not available";
 				}
 
-				//Try getting the book cover thumbnail URL
+				//Try getting the link to the story
 				try {
-					bookCoverThumbnailUriString = volumeInfo.getJSONObject("imageLinks")
-					                                        .getString("smallThumbnail");
+					storyLink = volumeInfo.getJSONObject("imageLinks")
+					                      .getString("smallThumbnail");
 				} catch (JSONException e) {
 					checkForPermittedJsonException(e);
 				}
 
-				//Try getting the URL to the book info page URL
-				try {
-					bookInfoPageUriString = volumeInfo.getString("infoLink");
-				} catch (JSONException e) {
-					checkForPermittedJsonException(e);
-				}
-
-				//Add current book object
-				bookArrayList.add(new Book(bookTitle,
-				                           bookAuthor,
-				                           bookPublishedYear,
-				                           bookCoverThumbnailUriString,
-				                           bookInfoPageUriString)
-				                 );
+				//Add current Story object
+				storyArrayList.add(new Story(storyHeadline,
+				                             storyDateTime,
+				                             storyAuthor,
+				                             storySection,
+				                             storyLink)
+				                  );
 
 			}
 		} catch (JSONException e) {
 			Log.e(LOG_TAG, e.getMessage());
 		}
 
-		return bookArrayList;
+		return storyArrayList;
 	}
 
 	private static void checkForPermittedJsonException(JSONException e) throws JSONException {
@@ -199,6 +188,7 @@ class QueryUtils {
 		}
 	}
 
+	//TODO Adapt preferences
 	static void getPreferences(Context context) {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
