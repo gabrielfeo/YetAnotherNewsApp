@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?><!--TODO remove tools text-->
+<android.support.constraint.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:app = "http://schemas.android.com/apk/res-auto"
+	xmlns:tools = "http://schemas.android.com/tools"
+	android:layout_width = "match_parent"
+	android:layout_height = "136dp"
+	android:padding = "16dp">
+
+	<!--TODO test ellipsize-->
+	<TextView
+		android:id = "@+id/listitem_stories_headline"
+		android:layout_width = "0dp"
+		android:layout_height = "wrap_content"
+		android:layout_marginBottom = "2dp"
+		android:ellipsize = "end"
+		android:maxLines = "2"
+		android:textAppearance = "@style/TextAppearance.AppCompat.Large"
+		android:textStyle = "bold"
+		app:layout_constraintBottom_toTopOf = "@id/listitem_stories_datetime"
+		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintStart_toStartOf = "parent"
+		app:layout_constraintTop_toTopOf = "parent"
+		app:layout_constraintVertical_chainStyle = "packed"
+		tools:text = "Another Facebook strike: Cambridge Analytica all over again" />
+
+	<TextView
+		android:id = "@+id/listitem_stories_datetime"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		app:layout_constraintBottom_toTopOf = "@id/listitem_stories_section"
+		app:layout_constraintEnd_toStartOf = "@id/listitem_stories_author"
+		app:layout_constraintStart_toStartOf = "parent"
+		app:layout_constraintTop_toBottomOf = "@id/listitem_stories_headline"
+		tools:text = "22 Apr 2019, 13:34, " />
+
+	<TextView
+		android:id = "@+id/listitem_stories_author"
+		android:layout_width = "0dp"
+		android:layout_height = "wrap_content"
+		app:layout_constraintBottom_toBottomOf = "@id/listitem_stories_datetime"
+		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintStart_toEndOf = "@id/listitem_stories_datetime"
+		app:layout_constraintTop_toTopOf = "@id/listitem_stories_datetime"
+		tools:text = "by Joshua Topolsky" />
+
+	<TextView
+		android:id = "@+id/listitem_stories_section"
+		android:layout_width = "0dp"
+		android:layout_height = "wrap_content"
+		app:layout_constraintBottom_toBottomOf = "parent"
+		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintStart_toStartOf = "parent"
+		app:layout_constraintTop_toBottomOf = "@id/listitem_stories_datetime"
+		tools:text = "in Technology" />
+
+</android.support.constraint.ConstraintLayout>
