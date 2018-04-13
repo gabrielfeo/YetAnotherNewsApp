@@ -1,3 +1,5 @@
 <resources>
 	<string name = "app_name">Yet Another News App</string>
+	<string name = "stories_toolbarmenuitem_search">Search</string>
+	<string name = "stories_toolbarmenuitem_preferences">Preferences</string>
 </resources>

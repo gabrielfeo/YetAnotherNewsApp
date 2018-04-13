@@ -9,7 +9,7 @@
 		android:id = "@+id/books_toolbarmenuitem_search"
 		android:icon = "@drawable/ic_search_white_24dp"
 		android:orderInCategory = "1"
-		android:title = "@string/books_toolbarmenuitem_search"
+		android:title = "@string/stories_toolbarmenuitem_search"
 		app:actionViewClass = "android.support.v7.widget.SearchView"
 		app:showAsAction = "always|collapseActionView" />
 
@@ -17,7 +17,7 @@
 		android:id = "@+id/books_toolbarmenuitem_preferences"
 		android:icon = "@drawable/ic_settings_white_24dp"
 		android:orderInCategory = "2"
-		android:title = "@string/books_toolbarmenuitem_preferences"
+		android:title = "@string/stories_toolbarmenuitem_preferences"
 		app:showAsAction = "ifRoom" />
 
 </menu>
