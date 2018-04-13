@@ -22,7 +22,7 @@ class Story {
 		mLink = Uri.parse(link);
 	}
 
-	String getTitle() {
+	String getHeadline() {
 		return mHeadline;
 	}
 
