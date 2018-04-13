@@ -13,7 +13,7 @@
 
 	<fragment
 		android:id = "@+id/preferences_fragment"
-		android:name = "com.gfeo.booksearch.PreferencesActivity$BooksPreferencesFragment"
+		android:name = "com.gfeo.yetanothernewsapp.PreferencesActivity$NewsPreferencesFragment"
 		android:layout_width = "match_parent"
 		android:layout_height = "0dp"
 		app:layout_constraintBottom_toBottomOf = "parent"
