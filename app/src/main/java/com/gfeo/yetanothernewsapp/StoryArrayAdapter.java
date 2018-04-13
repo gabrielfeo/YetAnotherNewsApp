@@ -39,10 +39,10 @@ class StoryArrayAdapter extends ArrayAdapter<Story> {
 			                                     (ViewGroup) container.findViewById(R.id.container)
 			                                    );
 			viewHolder = new ViewHolder();
-			viewHolder.storyHeadline = convertView.findViewById(R.id.listitem_stories_headline);
-			viewHolder.storyDateTime = convertView.findViewById(R.id.listitem_stories_datetime);
-			viewHolder.storySection = convertView.findViewById(R.id.listitem_stories_section);
-			viewHolder.storyAuthor = convertView.findViewById(R.id.listitem_stories_author);
+			viewHolder.textViewHeadline = convertView.findViewById(R.id.listitem_stories_headline);
+			viewHolder.textViewDateTime = convertView.findViewById(R.id.listitem_stories_datetime);
+			viewHolder.textViewSection = convertView.findViewById(R.id.listitem_stories_section);
+			viewHolder.textViewAuthor = convertView.findViewById(R.id.listitem_stories_author);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -50,20 +50,28 @@ class StoryArrayAdapter extends ArrayAdapter<Story> {
 
 		final Story currentStory = getItem(position);
 
-		viewHolder.storyHeadline.setText(currentStory.getHeadline());
-		viewHolder.storyDateTime.setText(currentStory.getDateTime());
+		//Set the current story headline
+		viewHolder.textViewHeadline.setText(currentStory.getHeadline());
+		//Set the current story date and time
+		String storyDateTime = currentStory.getDateTime();
+		if (!storyDateTime.isEmpty()) {
+			storyDateTime += ", ";
+			viewHolder.textViewDateTime.setText(storyDateTime);
+		}
+		//Set the current story section
 		//TODO Change to handle both the "All sections" tab and specific tabs
-		viewHolder.storySection.setText(currentStory.getSection());
-		viewHolder.storyAuthor.setText(currentStory.getAuthor());
+		viewHolder.textViewSection.setText(currentStory.getSection());
+		//Set the current story author
+		viewHolder.textViewAuthor.setText(currentStory.getAuthor());
 
 		return convertView;
 	}
 
 	private class ViewHolder {
-		TextView storyHeadline;
-		TextView storyDateTime;
-		TextView storySection;
-		TextView storyAuthor;
+		TextView textViewHeadline;
+		TextView textViewDateTime;
+		TextView textViewSection;
+		TextView textViewAuthor;
 	}
 
 }
