@@ -21,7 +21,7 @@
 		app:layout_constraintStart_toStartOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent"
 		app:layout_constraintVertical_chainStyle = "packed"
-		tools:text = "Another Facebook strike: Cambridge Analytica all over again" />
+		tools:text = "@string/test_headline" />
 
 	<TextView
 		android:id = "@+id/listitem_stories_datetime"
@@ -31,7 +31,7 @@
 		app:layout_constraintEnd_toStartOf = "@id/listitem_stories_author"
 		app:layout_constraintStart_toStartOf = "parent"
 		app:layout_constraintTop_toBottomOf = "@id/listitem_stories_headline"
-		tools:text = "22 Apr 2019, 13:34, " />
+		tools:text = "@string/test_datetime" />
 
 	<TextView
 		android:id = "@+id/listitem_stories_author"
@@ -41,7 +41,7 @@
 		app:layout_constraintEnd_toEndOf = "parent"
 		app:layout_constraintStart_toEndOf = "@id/listitem_stories_datetime"
 		app:layout_constraintTop_toTopOf = "@id/listitem_stories_datetime"
-		tools:text = "by Joshua Topolsky" />
+		tools:text = "@string/test_author" />
 
 	<!--TODO make sure the adapter can handle an absent section TextView-->
 
