@@ -5,4 +5,10 @@
 	<string name = "test_section">in Technology</string>
 	<string name = "test_author">by Joshua Topolsky</string>
 	<string name = "test_link">https://www.google.com/</string>
+
+	<string name = "fragment_all">All</string>
+	<string name = "fragment_tech">Tech</string>
+	<string name = "sectionid_all">all</string>
+	<string name = "sectionid_tech">technology</string>
+
 </resources>
