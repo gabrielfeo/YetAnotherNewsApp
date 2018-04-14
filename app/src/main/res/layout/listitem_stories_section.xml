@@ -2,11 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:app = "http://schemas.android.com/apk/res-auto"
 	xmlns:tools = "http://schemas.android.com/tools"
-	android:padding="16dp"
 	android:layout_width = "match_parent"
-	android:layout_height = "120dp">
+	android:layout_height = "@dimen/stories_listitem_height"
+	android:padding = "16dp">
 
-	<!--TODO test ellipsize-->
 	<TextView
 		android:id = "@+id/listitem_stories_headline"
 		android:layout_width = "0dp"
@@ -16,7 +15,7 @@
 		android:maxLines = "2"
 		android:textAppearance = "@style/TextAppearance.AppCompat.Large"
 		android:textStyle = "bold"
-		app:layout_constraintBottom_toTopOf = "@id/listitem_stories_datetime"
+		app:layout_constraintBottom_toTopOf = "@id/listitem_stories_author"
 		app:layout_constraintEnd_toEndOf = "parent"
 		app:layout_constraintStart_toStartOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent"
@@ -24,25 +23,27 @@
 		tools:text = "@string/test_headline" />
 
 	<TextView
-		android:id = "@+id/listitem_stories_datetime"
-		android:layout_width = "wrap_content"
-		android:layout_height = "wrap_content"
-		app:layout_constraintBottom_toBottomOf = "parent"
-		app:layout_constraintEnd_toStartOf = "@id/listitem_stories_author"
-		app:layout_constraintStart_toStartOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@id/listitem_stories_headline"
-		tools:text = "@string/test_datetime" />
-
-	<TextView
 		android:id = "@+id/listitem_stories_author"
 		android:layout_width = "0dp"
 		android:layout_height = "wrap_content"
-		app:layout_constraintBottom_toBottomOf = "@id/listitem_stories_datetime"
+		android:ellipsize = "end"
+		android:maxLines = "1"
+		app:layout_constraintBottom_toTopOf = "@id/listitem_stories_datetime"
 		app:layout_constraintEnd_toEndOf = "parent"
-		app:layout_constraintStart_toEndOf = "@id/listitem_stories_datetime"
-		app:layout_constraintTop_toTopOf = "@id/listitem_stories_datetime"
+		app:layout_constraintStart_toStartOf = "parent"
+		app:layout_constraintTop_toBottomOf = "@id/listitem_stories_headline"
 		tools:text = "@string/test_author" />
 
-	<!--TODO make sure the adapter can handle an absent section TextView-->
+	<TextView
+		android:id = "@+id/listitem_stories_datetime"
+		android:layout_width = "0dp"
+		android:layout_height = "wrap_content"
+		android:ellipsize = "end"
+		android:maxLines = "1"
+		app:layout_constraintBottom_toBottomOf = "parent"
+		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintStart_toStartOf = "parent"
+		app:layout_constraintTop_toBottomOf = "@id/listitem_stories_author"
+		tools:text = "@string/test_datetime" />
 
 </android.support.constraint.ConstraintLayout>
