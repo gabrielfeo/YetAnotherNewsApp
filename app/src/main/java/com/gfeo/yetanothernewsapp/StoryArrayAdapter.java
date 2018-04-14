@@ -62,7 +62,13 @@ class StoryArrayAdapter extends ArrayAdapter<Story> {
 		//TODO Change to handle both the "All sections" tab and specific tabs
 		viewHolder.textViewSection.setText(currentStory.getSection());
 		//Set the current story author
-		viewHolder.textViewAuthor.setText(currentStory.getAuthor());
+		String storyAuthor = currentStory.getAuthor();
+		if (storyAuthor.equals("Letters")) {
+			storyAuthor = "Letter";
+		} else if (!storyAuthor.isEmpty()) {
+			storyAuthor = "by " + storyAuthor;
+		}
+		viewHolder.textViewAuthor.setText(storyAuthor);
 
 		return convertView;
 	}
