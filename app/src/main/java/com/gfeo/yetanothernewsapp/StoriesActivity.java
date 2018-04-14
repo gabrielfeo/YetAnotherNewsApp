@@ -45,9 +45,8 @@ public class StoriesActivity extends AppCompatActivity {
 		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
-			storyArrayList = initializeList(storyArrayList);
-			setupListView(view, storyArrayList);
-			initializeStoriesLoader(0, "", storyArrayList);
+			storyArrayList = initializeStoryArrayList(storyArrayList);
+			initializeSectionView("all", view, storyArrayList);
 			return view;
 		}
 
@@ -66,9 +65,8 @@ public class StoriesActivity extends AppCompatActivity {
 		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
-			storyArrayList = initializeList(storyArrayList);
-			setupListView(view, storyArrayList);
-			initializeStoriesLoader(1, "technology", storyArrayList);
+			storyArrayList = initializeStoryArrayList(storyArrayList);
+			initializeSectionView("technology", view, storyArrayList);
 			return view;
 		}
 	}

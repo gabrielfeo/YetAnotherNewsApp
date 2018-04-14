@@ -29,7 +29,7 @@ public class SectionFragment extends Fragment {
 		super();
 	}
 
-	protected static ArrayList<Story> initializeList(ArrayList<Story> storyArrayList) {
+	protected static ArrayList<Story> initializeStoryArrayList(ArrayList<Story> storyArrayList) {
 		if (storyArrayList == null) {
 			storyArrayList = new ArrayList<>();
 		}
@@ -51,6 +51,21 @@ public class SectionFragment extends Fragment {
 					new StoriesLoaderCallbacks(sectionId, storyArrayList);
 			getLoaderManager().initLoader(loaderId, null, loaderCallbacks).forceLoad();
 		}
+	}
+
+	protected void initializeSectionView(String sectionName,
+	                                     View fragmentView,
+	                                     ArrayList<Story> storyArrayList) {
+		setupListView(fragmentView, storyArrayList);
+		String sectionStringArrayName = "section_" + sectionName;
+		int sectionStringArrayResId = getContext().getResources()
+		                                          .getIdentifier(sectionStringArrayName,
+		                                                         "array",
+		                                                         getContext().getPackageName());
+		String[] sectionStringArray = getContext().getResources()
+		                                          .getStringArray(sectionStringArrayResId);
+		int loaderId = Integer.valueOf(sectionStringArray[0]);
+		initializeStoriesLoader(loaderId, sectionStringArray[1], storyArrayList);
 	}
 
 	protected void setupListView(View fragmentView, ArrayList<Story> storyArrayList) {
