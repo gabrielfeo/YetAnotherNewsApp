@@ -43,12 +43,10 @@ class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 		SectionFragment fragment = null;
 		switch (position) {
 			case 0:
-				fragment = new SectionFragment();
-				fragment.setSectionId(mContext.getString(R.string.sectionid_all));
+				fragment = new StoriesActivity.AllSectionFragment();
 				break;
 			case 1:
-				fragment = new SectionFragment();
-				fragment.setSectionId(mContext.getString(R.string.fragment_tech));
+				fragment = new StoriesActivity.TechSectionFragment();
 				break;
 		}
 		return fragment;
