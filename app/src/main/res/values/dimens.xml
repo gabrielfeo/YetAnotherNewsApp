@@ -3,5 +3,6 @@
 
 	<dimen name = "toolbar_elevation">4dp</dimen>
 	<dimen name = "stories_listitem_height">128dp</dimen>
+	<dimen name = "stories_fragment_progressbar_circle_diameter">48dp</dimen>
 
 </resources>

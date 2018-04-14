@@ -3,6 +3,8 @@
 	<string name = "test_headline">Another Facebook strike: Cambridge Analytica all over again</string>
 	<string name = "stories_toolbarmenuitem_search">Search</string>
 	<string name = "stories_toolbarmenuitem_preferences">Preferences</string>
+	<string name = "stories_fragment_no_connection">You have no internet connection\nPlease
+	try again later</string>
 
 	<string name = "tabname_all">All</string>
 	<string name = "tabname_art">Art</string>

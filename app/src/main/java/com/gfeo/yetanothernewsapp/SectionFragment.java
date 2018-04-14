@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,7 @@ import java.util.ArrayList;
  */
 
 public class SectionFragment extends Fragment {
-	//TODO Can be private?
-	protected StoryArrayAdapter storyArrayAdapter;
+	private StoryArrayAdapter storyArrayAdapter;
 
 	public SectionFragment() {
 		super();
@@ -47,11 +47,15 @@ public class SectionFragment extends Fragment {
 
 	protected void initializeStoriesLoader(int loaderId,
 	                                       String sectionId,
-	                                       ArrayList<Story> storyArrayList) {
+	                                       ArrayList<Story> storyArrayList,
+	                                       View storiesView) {
 		if (storyArrayList.isEmpty()) {
 			final LoaderManager.LoaderCallbacks loaderCallbacks =
-					new StoriesLoaderCallbacks(sectionId, storyArrayList);
-			getLoaderManager().initLoader(loaderId, null, loaderCallbacks).forceLoad();
+					new StoriesLoaderCallbacks(sectionId, storyArrayList, storiesView);
+			Loader loader = getLoaderManager().initLoader(loaderId, null, loaderCallbacks);
+			if (loader != null) {
+				loader.forceLoad();
+			}
 		}
 	}
 
@@ -67,7 +71,7 @@ public class SectionFragment extends Fragment {
 		String[] sectionStringArray = getContext().getResources()
 		                                          .getStringArray(sectionStringArrayResId);
 		int loaderId = Integer.valueOf(sectionStringArray[0]);
-		initializeStoriesLoader(loaderId, sectionStringArray[1], storyArrayList);
+		initializeStoriesLoader(loaderId, sectionStringArray[1], storyArrayList, fragmentView);
 	}
 
 	protected void setupListView(View fragmentView, ArrayList<Story> storyArrayList) {
@@ -115,24 +119,31 @@ public class SectionFragment extends Fragment {
 
 		private final String mSectionId;
 		private final ArrayList<Story> mStoryArrayList;
+		private View mStoriesView;
 
-		StoriesLoaderCallbacks(String sectionId, ArrayList<Story> storyArrayList) {
+		StoriesLoaderCallbacks(String sectionId,
+		                       ArrayList<Story> storyArrayList,
+		                       View storiesView) {
 			super();
 			mSectionId = sectionId;
 			mStoryArrayList = storyArrayList;
+			mStoriesView = storiesView;
 		}
 
 		@Override
 		public android.support.v4.content.Loader onCreateLoader(int id, Bundle args) {
 			if (existsActiveNetworkConnection()) {
+				showProgressBar(mStoriesView);
 				return new StoriesLoader(getActivity(), "", mSectionId, mStoryArrayList);
 			} else {
+				showNoConnectionView(mStoriesView);
 				return null;
 			}
 		}
 
 		@Override
 		public void onLoadFinished(android.support.v4.content.Loader loader, Object data) {
+			showStoriesList(mStoriesView);
 			storyArrayAdapter.notifyDataSetChanged();
 		}
 
@@ -159,6 +170,27 @@ public class SectionFragment extends Fragment {
 				activeNetwork = null;
 			}
 			return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
+		}
+
+		private void showProgressBar(View view) {
+			view.findViewById(R.id.fragment_textview_no_connection)
+			    .setVisibility(View.GONE);
+			view.findViewById(R.id.fragment_listview).setVisibility(View.GONE);
+			view.findViewById(R.id.fragment_progressbar).setVisibility(View.VISIBLE);
+		}
+
+		private void showStoriesList(View view) {
+			view.findViewById(R.id.fragment_textview_no_connection)
+			    .setVisibility(View.GONE);
+			view.findViewById(R.id.fragment_progressbar).setVisibility(View.GONE);
+			view.findViewById(R.id.fragment_listview).setVisibility(View.VISIBLE);
+		}
+
+		private void showNoConnectionView(View view) {
+			view.findViewById(R.id.fragment_listview).setVisibility(View.GONE);
+			view.findViewById(R.id.fragment_progressbar).setVisibility(View.GONE);
+			view.findViewById(R.id.fragment_textview_no_connection)
+			    .setVisibility(View.VISIBLE);
 		}
 
 	}
