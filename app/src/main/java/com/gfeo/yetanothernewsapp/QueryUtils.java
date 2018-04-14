@@ -30,7 +30,7 @@ class QueryUtils {
 		uriBuilder.scheme("https")
 		          .authority("content.guardianapis.com")
 		          .appendPath("search")
-		          .appendQueryParameter("show-fields", "headline%2Cbyline")
+		          .appendQueryParameter("show-fields", "headline,byline")
 		          .appendQueryParameter("page-size", "20")
 		          .appendQueryParameter("api-key", "test");
 		return createUrl(uriBuilder.toString());
@@ -118,7 +118,7 @@ class QueryUtils {
 			JSONObject jsonResponse = new JSONObject(jsonResponseString).getJSONObject("response");
 			numberOfResults = jsonResponse.getInt("total");
 			//TODO maxResults settings sets pagesize
-			maxResults = jsonResponse.getInt("pagesize");
+			maxResults = jsonResponse.getInt("pageSize");
 			JSONArray resultsArray = jsonResponse.getJSONArray("results");
 			int maxIterations = (numberOfResults < maxResults)
 			                    ? numberOfResults
