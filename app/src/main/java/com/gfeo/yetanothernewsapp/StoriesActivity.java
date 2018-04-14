@@ -34,7 +34,7 @@ public class StoriesActivity extends AppCompatActivity {
 
 	public static class AllSectionFragment extends SectionFragment {
 
-		private ArrayList<Story> storyArrayList;
+		private static ArrayList<Story> storyArrayList;
 
 		public AllSectionFragment() {
 			super();
@@ -55,7 +55,7 @@ public class StoriesActivity extends AppCompatActivity {
 
 	public static class TechSectionFragment extends SectionFragment {
 
-		private ArrayList<Story> storyArrayList;
+		private static ArrayList<Story> storyArrayList;
 
 		public TechSectionFragment() {
 			super();

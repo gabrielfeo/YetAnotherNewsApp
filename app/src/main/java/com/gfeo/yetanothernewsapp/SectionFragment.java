@@ -46,9 +46,11 @@ public class SectionFragment extends Fragment {
 	protected void initializeStoriesLoader(int loaderId,
 	                                       String sectionId,
 	                                       ArrayList<Story> storyArrayList) {
-		final LoaderManager.LoaderCallbacks loaderCallbacks =
-				new StoriesLoaderCallbacks(sectionId, storyArrayList);
-		getLoaderManager().initLoader(loaderId, null, loaderCallbacks).forceLoad();
+		if (storyArrayList.isEmpty()) {
+			final LoaderManager.LoaderCallbacks loaderCallbacks =
+					new StoriesLoaderCallbacks(sectionId, storyArrayList);
+			getLoaderManager().initLoader(loaderId, null, loaderCallbacks).forceLoad();
+		}
 	}
 
 	protected void setupListView(View fragmentView, ArrayList<Story> storyArrayList) {
