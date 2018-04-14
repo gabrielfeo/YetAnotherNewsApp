@@ -23,6 +23,8 @@
 	</style>
 
 	<style name = "AppBarTheme.TabLayout">
+		<item name = "android:layout_width">wrap_content</item>
+		<item name = "tabMode">scrollable</item>
 		<item name = "tabIndicatorColor">@android:color/white</item>
 	</style>
 
