@@ -28,10 +28,10 @@ class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 		String pageTitle = "";
 		switch (position) {
 			case 0:
-				pageTitle = mContext.getString(R.string.fragment_all);
+				pageTitle = mContext.getString(R.string.tabname_all);
 				break;
 			case 1:
-				pageTitle = mContext.getString(R.string.fragment_tech);
+				pageTitle = mContext.getString(R.string.tabname_tech);
 				break;
 		}
 		return pageTitle;
