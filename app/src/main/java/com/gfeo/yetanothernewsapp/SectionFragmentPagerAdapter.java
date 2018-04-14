@@ -20,7 +20,7 @@ class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public int getCount() {
-		return 2;
+		return 10;
 	}
 
 	@Override
@@ -31,7 +31,31 @@ class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 				pageTitle = mContext.getString(R.string.tabname_all);
 				break;
 			case 1:
-				pageTitle = mContext.getString(R.string.tabname_tech);
+				pageTitle = mContext.getString(R.string.tabname_art);
+				break;
+			case 2:
+				pageTitle = mContext.getString(R.string.tabname_business);
+				break;
+			case 3:
+				pageTitle = mContext.getString(R.string.tabname_culture);
+				break;
+			case 4:
+				pageTitle = mContext.getString(R.string.tabname_media);
+				break;
+			case 5:
+				pageTitle = mContext.getString(R.string.tabname_money);
+				break;
+			case 6:
+				pageTitle = mContext.getString(R.string.tabname_opinion);
+				break;
+			case 7:
+				pageTitle = mContext.getString(R.string.tabname_politics);
+				break;
+			case 8:
+				pageTitle = mContext.getString(R.string.tabname_science);
+				break;
+			case 9:
+				pageTitle = mContext.getString(R.string.tabname_technology);
 				break;
 		}
 		return pageTitle;
@@ -46,7 +70,31 @@ class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 				fragment = new StoriesActivity.AllSectionFragment();
 				break;
 			case 1:
-				fragment = new StoriesActivity.TechSectionFragment();
+				fragment = new StoriesActivity.ArtSectionFragment();
+				break;
+			case 2:
+				fragment = new StoriesActivity.BusinessSectionFragment();
+				break;
+			case 3:
+				fragment = new StoriesActivity.CultureSectionFragment();
+				break;
+			case 4:
+				fragment = new StoriesActivity.MediaSectionFragment();
+				break;
+			case 5:
+				fragment = new StoriesActivity.MoneySectionFragment();
+				break;
+			case 6:
+				fragment = new StoriesActivity.OpinionSectionFragment();
+				break;
+			case 7:
+				fragment = new StoriesActivity.PoliticsSectionFragment();
+				break;
+			case 8:
+				fragment = new StoriesActivity.ScienceSectionFragment();
+				break;
+			case 9:
+				fragment = new StoriesActivity.TechSectionFragment();;
 				break;
 		}
 		return fragment;

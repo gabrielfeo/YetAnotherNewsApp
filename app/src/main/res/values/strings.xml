@@ -3,9 +3,18 @@
 	<string name = "test_headline">Another Facebook strike: Cambridge Analytica all over again</string>
 	<string name = "stories_toolbarmenuitem_search">Search</string>
 	<string name = "stories_toolbarmenuitem_preferences">Preferences</string>
+
 	<string name = "tabname_all">All</string>
-	<string name = "tabname_tech">Tech</string>
-	
+	<string name = "tabname_art">Art</string>
+	<string name = "tabname_business">Business</string>
+	<string name = "tabname_culture">Culture</string>
+	<string name = "tabname_media">Media</string>
+	<string name = "tabname_money">Money</string>
+	<string name = "tabname_opinion">Opinion</string>
+	<string name = "tabname_politics">Politics</string>
+	<string name = "tabname_science">Science</string>
+	<string name = "tabname_technology">Tech</string>
+
 	<string name = "test_datetime">22 Apr 2019, 13:34</string>
 	<string name = "test_section">in Technology</string>
 	<string name = "test_author">by Joshua Topolsky</string>

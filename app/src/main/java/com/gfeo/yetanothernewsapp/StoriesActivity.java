@@ -52,6 +52,158 @@ public class StoriesActivity extends AppCompatActivity {
 
 	}
 
+	public static class ArtSectionFragment extends SectionFragment {
+
+		private static ArrayList<Story> storyArrayList;
+
+		public ArtSectionFragment() {
+			super();
+		}
+
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+				Bundle savedInstanceState) {
+			View view = super.onCreateView(inflater, container, savedInstanceState);
+			storyArrayList = initializeStoryArrayList(storyArrayList);
+			initializeSectionView("art", view, storyArrayList);
+			return view;
+		}
+	}
+
+	public static class BusinessSectionFragment extends SectionFragment {
+
+		private static ArrayList<Story> storyArrayList;
+
+		public BusinessSectionFragment() {
+			super();
+		}
+
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+				Bundle savedInstanceState) {
+			View view = super.onCreateView(inflater, container, savedInstanceState);
+			storyArrayList = initializeStoryArrayList(storyArrayList);
+			initializeSectionView("business", view, storyArrayList);
+			return view;
+		}
+	}
+
+	public static class CultureSectionFragment extends SectionFragment {
+
+		private static ArrayList<Story> storyArrayList;
+
+		public CultureSectionFragment() {
+			super();
+		}
+
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+				Bundle savedInstanceState) {
+			View view = super.onCreateView(inflater, container, savedInstanceState);
+			storyArrayList = initializeStoryArrayList(storyArrayList);
+			initializeSectionView("culture", view, storyArrayList);
+			return view;
+		}
+	}
+
+	public static class MediaSectionFragment extends SectionFragment {
+
+		private static ArrayList<Story> storyArrayList;
+
+		public MediaSectionFragment() {
+			super();
+		}
+
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+				Bundle savedInstanceState) {
+			View view = super.onCreateView(inflater, container, savedInstanceState);
+			storyArrayList = initializeStoryArrayList(storyArrayList);
+			initializeSectionView("media", view, storyArrayList);
+			return view;
+		}
+	}
+
+	public static class MoneySectionFragment extends SectionFragment {
+
+		private static ArrayList<Story> storyArrayList;
+
+		public MoneySectionFragment() {
+			super();
+		}
+
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+				Bundle savedInstanceState) {
+			View view = super.onCreateView(inflater, container, savedInstanceState);
+			storyArrayList = initializeStoryArrayList(storyArrayList);
+			initializeSectionView("money", view, storyArrayList);
+			return view;
+		}
+	}
+
+	public static class OpinionSectionFragment extends SectionFragment {
+
+		private static ArrayList<Story> storyArrayList;
+
+		public OpinionSectionFragment() {
+			super();
+		}
+
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+				Bundle savedInstanceState) {
+			View view = super.onCreateView(inflater, container, savedInstanceState);
+			storyArrayList = initializeStoryArrayList(storyArrayList);
+			initializeSectionView("opinion", view, storyArrayList);
+			return view;
+		}
+	}
+
+	public static class PoliticsSectionFragment extends SectionFragment {
+
+		private static ArrayList<Story> storyArrayList;
+
+		public PoliticsSectionFragment() {
+			super();
+		}
+
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+				Bundle savedInstanceState) {
+			View view = super.onCreateView(inflater, container, savedInstanceState);
+			storyArrayList = initializeStoryArrayList(storyArrayList);
+			initializeSectionView("politics", view, storyArrayList);
+			return view;
+		}
+	}
+
+	public static class ScienceSectionFragment extends SectionFragment {
+
+		private static ArrayList<Story> storyArrayList;
+
+		public ScienceSectionFragment() {
+			super();
+		}
+
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+				Bundle savedInstanceState) {
+			View view = super.onCreateView(inflater, container, savedInstanceState);
+			storyArrayList = initializeStoryArrayList(storyArrayList);
+			initializeSectionView("science", view, storyArrayList);
+			return view;
+		}
+	}
+
 	public static class TechSectionFragment extends SectionFragment {
 
 		private static ArrayList<Story> storyArrayList;

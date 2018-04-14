@@ -5,8 +5,40 @@
 		<item>0</item>
 		<item></item>
 	</string-array>
-	<string-array name = "section_technology">
+	<string-array name = "section_art">
 		<item>1</item>
+		<item>artanddesign</item>
+	</string-array>
+	<string-array name = "section_business">
+		<item>2</item>
+		<item>business</item>
+	</string-array>
+	<string-array name = "section_culture">
+		<item>3</item>
+		<item>culture</item>
+	</string-array>
+	<string-array name = "section_media">
+		<item>4</item>
+		<item>media</item>
+	</string-array>
+	<string-array name = "section_money">
+		<item>5</item>
+		<item>money</item>
+	</string-array>
+	<string-array name = "section_opinion">
+		<item>6</item>
+		<item>commentisfree</item>
+	</string-array>
+	<string-array name = "section_politics">
+		<item>7</item>
+		<item>politics</item>
+	</string-array>
+	<string-array name = "section_science">
+		<item>8</item>
+		<item>science</item>
+	</string-array>
+	<string-array name = "section_technology">
+		<item>9</item>
 		<item>technology</item>
 	</string-array>
 
