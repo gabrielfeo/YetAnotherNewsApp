@@ -1,5 +1,7 @@
 package com.gfeo.yetanothernewsapp;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
@@ -122,7 +124,6 @@ public class SectionFragment extends Fragment {
 
 		@Override
 		public android.support.v4.content.Loader onCreateLoader(int id, Bundle args) {
-			//TODO get activity?
 			return new StoriesLoader(getActivity(), "", mSectionId, mStoryArrayList);
 		}
 
@@ -134,8 +135,27 @@ public class SectionFragment extends Fragment {
 		@Override
 		public void onLoaderReset(android.support.v4.content.Loader loader) {
 		}
-	}
 
-	;
+		/**
+		 * Queries the {@link ConnectivityManager} SystemService for the active network's information
+		 * . Provides the caller with basic connectivity information (has active connection or
+		 * not) useful for flow control on Internet related functions.
+		 *
+		 * @return a boolean stating whether an active connection (or an impending,
+		 * "connecting") is available or not.
+		 */
+		private boolean existsActiveNetworkConnection() {
+			ConnectivityManager cm = (ConnectivityManager)
+					getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo activeNetwork;
+			try {
+				activeNetwork = cm.getActiveNetworkInfo();
+			} catch (NullPointerException e) {
+				activeNetwork = null;
+			}
+			return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
+		}
+
+	}
 
 }
