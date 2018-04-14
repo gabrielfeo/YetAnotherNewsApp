@@ -35,7 +35,7 @@ class StoryArrayAdapter extends ArrayAdapter<Story> {
 			                                        false
 			                                       );
 			//TODO Change to handle both the "All sections" tab and specific tabs
-			convertView = layoutInflater.inflate(R.layout.listitem_stories_generic,
+			convertView = layoutInflater.inflate(R.layout.listitem_stories,
 			                                     (ViewGroup) container.findViewById(R.id.container)
 			                                    );
 			viewHolder = new ViewHolder();
