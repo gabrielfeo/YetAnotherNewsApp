@@ -25,7 +25,7 @@ class QueryUtils {
 	static int maxResults;
 
 	//TODO Change to Guardian URL
-	static URL buildQueryUrl(String searchQuery) {
+	static URL buildQueryUrl(String searchQuery, String sectionId) {
 		Uri.Builder uriBuilder = new Uri.Builder();
 		uriBuilder.scheme("https")
 		          .authority("content.guardianapis.com")
@@ -33,6 +33,12 @@ class QueryUtils {
 		          .appendQueryParameter("show-fields", "headline,byline")
 		          .appendQueryParameter("page-size", "20")
 		          .appendQueryParameter("api-key", "test");
+		if (!sectionId.isEmpty()) {
+			uriBuilder.appendQueryParameter("section", sectionId);
+		}
+		if (!searchQuery.isEmpty()) {
+			uriBuilder.appendQueryParameter("q", searchQuery);
+		}
 		return createUrl(uriBuilder.toString());
 	}
 
