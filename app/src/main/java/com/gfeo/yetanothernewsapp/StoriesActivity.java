@@ -3,9 +3,15 @@ package com.gfeo.yetanothernewsapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.ArrayList;
 
 /**
  * Created by gabrielfeo on 2018/04/11.
@@ -27,6 +33,53 @@ public class StoriesActivity extends AppCompatActivity {
 		tabLayout.setupWithViewPager(viewPager);
 	}
 
+	public static class AllSectionFragment extends SectionFragment {
 
+		private ArrayList<Story> storyArrayList;
+
+		public AllSectionFragment() {
+			super();
+		}
+
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+				Bundle savedInstanceState) {
+			View view = super.onCreateView(inflater, container, savedInstanceState);
+			if (storyArrayList == null) {
+				storyArrayList = new ArrayList<>();
+			}
+			setupListView(view, storyArrayList);
+			final LoaderManager.LoaderCallbacks loaderCallbacks =
+					new StoriesLoaderCallbacks("", storyArrayList);
+			getLoaderManager().initLoader(0, null, loaderCallbacks).forceLoad();
+			return view;
+		}
+
+	}
+
+	public static class TechSectionFragment extends SectionFragment {
+
+		private ArrayList<Story> storyArrayList;
+
+		public TechSectionFragment() {
+			super();
+		}
+
+		@Nullable
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+				Bundle savedInstanceState) {
+			View view = super.onCreateView(inflater, container, savedInstanceState);
+			if (storyArrayList == null) {
+				storyArrayList = new ArrayList<>();
+			}
+			setupListView(view, storyArrayList);
+			final LoaderManager.LoaderCallbacks loaderCallbacks =
+					new StoriesLoaderCallbacks("technology", storyArrayList);
+			getLoaderManager().initLoader(1, null, loaderCallbacks).forceLoad();
+			return view;
+		}
+	}
 
 }

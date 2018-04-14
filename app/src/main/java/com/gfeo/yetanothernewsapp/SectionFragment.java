@@ -1,10 +1,9 @@
 package com.gfeo.yetanothernewsapp;
 
-import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -22,27 +22,7 @@ import java.util.ArrayList;
 
 public class SectionFragment extends Fragment {
 	//TODO Can be private?
-	static ArrayList<Story> storyArrayList;
-	private final LoaderManager.LoaderCallbacks loaderCallbacks =
-			new LoaderManager.LoaderCallbacks() {
-
-				@Override
-				public Loader onCreateLoader(int id, Bundle args) {
-					//TODO get activity?
-					return new StoriesLoader(getActivity());
-				}
-
-				@Override
-				public void onLoadFinished(Loader loader, Object data) {
-
-				}
-
-				@Override
-				public void onLoaderReset(Loader loader) {
-				}
-			};
-	//TODO Handle empty sectionId
-	String mSectionId;
+	protected StoryArrayAdapter storyArrayAdapter;
 
 	public SectionFragment() {
 		super();
@@ -52,27 +32,12 @@ public class SectionFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_section, container, false);
-		setupListView(view, storyArrayList);
-		return view;
+		return inflater.inflate(R.layout.fragment_section, container, false);
 	}
 
-	void setSectionId(String sectionId) {
-		mSectionId = sectionId;
-	}
-
-	void setupListView(View fragmentView, ArrayList<Story> storyArrayList) {
-		if (storyArrayList == null) {
-			storyArrayList = new ArrayList<>();
-		}
-		//TODO remove
-		storyArrayList.add(new Story(getString(R.string.test_headline),
-		                             getString(R.string.test_datetime),
-		                             getString(R.string.test_section),
-		                             getString(R.string.test_author),
-		                             getString(R.string.test_link)));
-		final StoryArrayAdapter storyArrayAdapter = new StoryArrayAdapter(getActivity(),
-		                                                                  storyArrayList);
+	protected void setupListView(View fragmentView, ArrayList<Story> storyArrayList) {
+		storyArrayAdapter = new StoryArrayAdapter(getActivity(),
+		                                          storyArrayList);
 		ListView listView = fragmentView.findViewById(R.id.fragment_listview);
 		listView.setAdapter(storyArrayAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,16 +54,56 @@ public class SectionFragment extends Fragment {
 	}
 
 	//TODO Can multiple fragment instances use this?
-	private static class StoriesLoader extends AsyncTaskLoader<ArrayList<Story>> {
+	protected static class StoriesLoader extends AsyncTaskLoader<ArrayList<Story>> {
 
-		StoriesLoader(Context context) {
+		private final String mSectionId;
+		private final ArrayList<Story> mStoryArrayList;
+		private String mSearchQuery = "";
+
+		StoriesLoader(Context context, String searchQuery, String sectionId,
+		              ArrayList<Story> storyArrayList) {
 			super(context);
+			mSearchQuery = searchQuery;
+			mSectionId = sectionId;
+			mStoryArrayList = storyArrayList;
 		}
 
 		@Override
 		public ArrayList<Story> loadInBackground() {
-			return null;
+			URL queryUrl = QueryUtils.buildQueryUrl(mSearchQuery, mSectionId);
+			String jsonResponse = QueryUtils.makeHttpRequest(queryUrl);
+			QueryUtils.parseJsonToArrayList(jsonResponse, mStoryArrayList);
+			return mStoryArrayList;
 		}
 	}
+
+	protected class StoriesLoaderCallbacks implements LoaderCallbacks {
+
+		private final String mSectionId;
+		private final ArrayList<Story> mStoryArrayList;
+
+		StoriesLoaderCallbacks(String sectionId, ArrayList<Story> storyArrayList) {
+			super();
+			mSectionId = sectionId;
+			mStoryArrayList = storyArrayList;
+		}
+
+		@Override
+		public android.support.v4.content.Loader onCreateLoader(int id, Bundle args) {
+			//TODO get activity?
+			return new StoriesLoader(getActivity(), "", mSectionId, mStoryArrayList);
+		}
+
+		@Override
+		public void onLoadFinished(android.support.v4.content.Loader loader, Object data) {
+			storyArrayAdapter.notifyDataSetChanged();
+		}
+
+		@Override
+		public void onLoaderReset(android.support.v4.content.Loader loader) {
+		}
+	}
+
+	;
 
 }
