@@ -124,7 +124,11 @@ public class SectionFragment extends Fragment {
 
 		@Override
 		public android.support.v4.content.Loader onCreateLoader(int id, Bundle args) {
-			return new StoriesLoader(getActivity(), "", mSectionId, mStoryArrayList);
+			if (existsActiveNetworkConnection()) {
+				return new StoriesLoader(getActivity(), "", mSectionId, mStoryArrayList);
+			} else {
+				return null;
+			}
 		}
 
 		@Override
@@ -137,7 +141,8 @@ public class SectionFragment extends Fragment {
 		}
 
 		/**
-		 * Queries the {@link ConnectivityManager} SystemService for the active network's information
+		 * Queries the {@link ConnectivityManager} SystemService for the active network's
+		 * information
 		 * . Provides the caller with basic connectivity information (has active connection or
 		 * not) useful for flow control on Internet related functions.
 		 *
