@@ -1,6 +1,10 @@
 package com.gfeo.yetanothernewsapp;
 
+import android.app.LoaderManager;
+import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +21,26 @@ import java.util.ArrayList;
  */
 
 public class SectionFragment extends Fragment {
+	//TODO Can be private?
 	static ArrayList<Story> storyArrayList;
+	private final LoaderManager.LoaderCallbacks loaderCallbacks =
+			new LoaderManager.LoaderCallbacks() {
+
+				@Override
+				public Loader onCreateLoader(int id, Bundle args) {
+					//TODO get activity?
+					return new StoriesLoader(getActivity());
+				}
+
+				@Override
+				public void onLoadFinished(Loader loader, Object data) {
+
+				}
+
+				@Override
+				public void onLoaderReset(Loader loader) {
+				}
+			};
 	//TODO Handle empty sectionId
 	String mSectionId;
 
@@ -42,6 +65,7 @@ public class SectionFragment extends Fragment {
 		if (storyArrayList == null) {
 			storyArrayList = new ArrayList<>();
 		}
+		//TODO remove
 		storyArrayList.add(new Story(getString(R.string.test_headline),
 		                             getString(R.string.test_datetime),
 		                             getString(R.string.test_section),
@@ -62,6 +86,19 @@ public class SectionFragment extends Fragment {
 				}
 			}
 		});
+	}
+
+	//TODO Can multiple fragment instances use this?
+	private static class StoriesLoader extends AsyncTaskLoader<ArrayList<Story>> {
+
+		StoriesLoader(Context context) {
+			super(context);
+		}
+
+		@Override
+		public ArrayList<Story> loadInBackground() {
+			return null;
+		}
 	}
 
 }
