@@ -152,7 +152,14 @@ class QueryUtils {
 					storyAuthor = "Author name not available";
 				}
 
-				//Try getting the link to the story
+				//Get the section name
+				try {
+					storySection = currentResult.getString("sectionName");
+				} catch (JSONException e) {
+					checkForPermittedJsonException(e);
+				}
+
+				//Get the link to the story
 				try {
 					storyLink = currentResult.getString("webUrl");
 				} catch (JSONException e) {

@@ -52,15 +52,16 @@ class StoryArrayAdapter extends ArrayAdapter<Story> {
 
 		//Set the current story headline
 		viewHolder.textViewHeadline.setText(currentStory.getHeadline());
-		//Set the current story date and time
-		String storyDateTime = currentStory.getDateTime();
-		if (!storyDateTime.isEmpty()) {
-			storyDateTime += ", ";
-			viewHolder.textViewDateTime.setText(storyDateTime);
-		}
 		//Set the current story section
 		//TODO Change to handle both the "All sections" tab and specific tabs
-		viewHolder.textViewSection.setText(currentStory.getSection());
+		String storySection = "in " + currentStory.getSection();
+		viewHolder.textViewSection.setText(storySection);
+		//Set the current story date and time
+		String storyDateTime = currentStory.getDateTime();
+		if (!storySection.isEmpty()) {
+			storyDateTime += ", ";
+		}
+		viewHolder.textViewDateTime.setText(storyDateTime);
 		//Set the current story author
 		String storyAuthor = currentStory.getAuthor();
 		if (storyAuthor.equals("Letters")) {
