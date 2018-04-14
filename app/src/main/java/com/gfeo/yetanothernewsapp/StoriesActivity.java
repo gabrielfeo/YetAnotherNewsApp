@@ -3,7 +3,6 @@ package com.gfeo.yetanothernewsapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -46,13 +45,9 @@ public class StoriesActivity extends AppCompatActivity {
 		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
-			if (storyArrayList == null) {
-				storyArrayList = new ArrayList<>();
-			}
+			storyArrayList = initializeList(storyArrayList);
 			setupListView(view, storyArrayList);
-			final LoaderManager.LoaderCallbacks loaderCallbacks =
-					new StoriesLoaderCallbacks("", storyArrayList);
-			getLoaderManager().initLoader(0, null, loaderCallbacks).forceLoad();
+			initializeStoriesLoader(0, "", storyArrayList);
 			return view;
 		}
 
@@ -71,13 +66,9 @@ public class StoriesActivity extends AppCompatActivity {
 		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
-			if (storyArrayList == null) {
-				storyArrayList = new ArrayList<>();
-			}
+			storyArrayList = initializeList(storyArrayList);
 			setupListView(view, storyArrayList);
-			final LoaderManager.LoaderCallbacks loaderCallbacks =
-					new StoriesLoaderCallbacks("technology", storyArrayList);
-			getLoaderManager().initLoader(1, null, loaderCallbacks).forceLoad();
+			initializeStoriesLoader(1, "technology", storyArrayList);
 			return view;
 		}
 	}

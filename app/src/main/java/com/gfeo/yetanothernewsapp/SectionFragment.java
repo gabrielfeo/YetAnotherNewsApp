@@ -1,5 +1,6 @@
 package com.gfeo.yetanothernewsapp;
 
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.content.Context;
@@ -28,11 +29,26 @@ public class SectionFragment extends Fragment {
 		super();
 	}
 
+	protected static ArrayList<Story> initializeList(ArrayList<Story> storyArrayList) {
+		if (storyArrayList == null) {
+			storyArrayList = new ArrayList<>();
+		}
+		return storyArrayList;
+	}
+
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_section, container, false);
+	}
+
+	protected void initializeStoriesLoader(int loaderId,
+	                                       String sectionId,
+	                                       ArrayList<Story> storyArrayList) {
+		final LoaderManager.LoaderCallbacks loaderCallbacks =
+				new StoriesLoaderCallbacks(sectionId, storyArrayList);
+		getLoaderManager().initLoader(loaderId, null, loaderCallbacks).forceLoad();
 	}
 
 	protected void setupListView(View fragmentView, ArrayList<Story> storyArrayList) {
