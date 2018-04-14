@@ -23,7 +23,10 @@ public class StoriesActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_stories);
 		setSupportActionBar((Toolbar) findViewById(R.id.stories_toolbar));
+		setupVIewPager();
+	}
 
+	private void setupVIewPager() {
 		ViewPager viewPager = findViewById(R.id.stories_viewpager);
 		TabLayout tabLayout = (findViewById(R.id.stories_tablayout));
 

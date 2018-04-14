@@ -86,7 +86,6 @@ public class SectionFragment extends Fragment {
 		});
 	}
 
-	//TODO Can multiple fragment instances use this?
 	protected static class StoriesLoader extends AsyncTaskLoader<ArrayList<Story>> {
 
 		private final String mSectionId;
