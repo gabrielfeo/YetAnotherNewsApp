@@ -56,9 +56,6 @@ public class SectionFragment extends Fragment {
 	private void refreshStoriesList(int loaderId,
 	                                StoriesLoaderCallbacks storiesLoaderCallbacks,
 	                                ArrayList<Story> storyArrayList) {
-		if (!storyArrayList.isEmpty()) {
-			storyArrayList.clear();
-		}
 		Loader loader = getActivity().getSupportLoaderManager()
 		                             .restartLoader(loaderId, null, storiesLoaderCallbacks);
 		if (loader != null) {
@@ -197,9 +194,10 @@ public class SectionFragment extends Fragment {
 			return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
 		}
 
-		private void showProgressBar(View view) {SwipeRefreshLayout swipeRefreshLayout =
-				((SwipeRefreshLayout)view.findViewById(R.id.fragment_swiperefreshlayout));
-			if (swipeRefreshLayout.isRefreshing()){
+		private void showProgressBar(View view) {
+			SwipeRefreshLayout swipeRefreshLayout =
+					view.findViewById(R.id.fragment_swiperefreshlayout);
+			if (swipeRefreshLayout.isRefreshing()) {
 				return;
 			}
 			view.findViewById(R.id.fragment_textview_no_connection)
@@ -210,9 +208,9 @@ public class SectionFragment extends Fragment {
 
 		private void showStoriesList(View view) {
 			SwipeRefreshLayout swipeRefreshLayout =
-					((SwipeRefreshLayout)view.findViewById(R.id.fragment_swiperefreshlayout));
-			if (swipeRefreshLayout.isRefreshing()){
-					swipeRefreshLayout.setRefreshing(false);
+					view.findViewById(R.id.fragment_swiperefreshlayout);
+			if (swipeRefreshLayout.isRefreshing()) {
+				swipeRefreshLayout.setRefreshing(false);
 			}
 			view.findViewById(R.id.fragment_textview_no_connection)
 			    .setVisibility(View.GONE);
@@ -222,8 +220,8 @@ public class SectionFragment extends Fragment {
 
 		private void showNoConnectionView(View view) {
 			SwipeRefreshLayout swipeRefreshLayout =
-					((SwipeRefreshLayout)view.findViewById(R.id.fragment_swiperefreshlayout));
-			if (swipeRefreshLayout.isRefreshing()){
+					view.findViewById(R.id.fragment_swiperefreshlayout);
+			if (swipeRefreshLayout.isRefreshing()) {
 				swipeRefreshLayout.setRefreshing(false);
 			}
 			view.findViewById(R.id.fragment_swiperefreshlayout).setVisibility(View.GONE);
