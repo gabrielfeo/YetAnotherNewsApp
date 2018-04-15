@@ -49,8 +49,8 @@ public class StoriesActivity extends AppCompatActivity {
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
 			storyArrayList = initializeStoryArrayList(storyArrayList);
-			initializeSectionView("all", view, storyArrayList);
-			return view;
+			return initializeSectionView("all", view, storyArrayList);
+
 		}
 
 	}
@@ -69,8 +69,8 @@ public class StoriesActivity extends AppCompatActivity {
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
 			storyArrayList = initializeStoryArrayList(storyArrayList);
-			initializeSectionView("art", view, storyArrayList);
-			return view;
+			return initializeSectionView("art", view, storyArrayList);
+
 		}
 	}
 
@@ -88,8 +88,8 @@ public class StoriesActivity extends AppCompatActivity {
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
 			storyArrayList = initializeStoryArrayList(storyArrayList);
-			initializeSectionView("business", view, storyArrayList);
-			return view;
+			return initializeSectionView("business", view, storyArrayList);
+
 		}
 	}
 
@@ -107,8 +107,8 @@ public class StoriesActivity extends AppCompatActivity {
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
 			storyArrayList = initializeStoryArrayList(storyArrayList);
-			initializeSectionView("culture", view, storyArrayList);
-			return view;
+			return initializeSectionView("culture", view, storyArrayList);
+
 		}
 	}
 
@@ -126,8 +126,8 @@ public class StoriesActivity extends AppCompatActivity {
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
 			storyArrayList = initializeStoryArrayList(storyArrayList);
-			initializeSectionView("media", view, storyArrayList);
-			return view;
+			return initializeSectionView("media", view, storyArrayList);
+
 		}
 	}
 
@@ -145,8 +145,8 @@ public class StoriesActivity extends AppCompatActivity {
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
 			storyArrayList = initializeStoryArrayList(storyArrayList);
-			initializeSectionView("money", view, storyArrayList);
-			return view;
+			return initializeSectionView("money", view, storyArrayList);
+
 		}
 	}
 
@@ -164,8 +164,8 @@ public class StoriesActivity extends AppCompatActivity {
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
 			storyArrayList = initializeStoryArrayList(storyArrayList);
-			initializeSectionView("opinion", view, storyArrayList);
-			return view;
+			return initializeSectionView("opinion", view, storyArrayList);
+
 		}
 	}
 
@@ -183,8 +183,8 @@ public class StoriesActivity extends AppCompatActivity {
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
 			storyArrayList = initializeStoryArrayList(storyArrayList);
-			initializeSectionView("politics", view, storyArrayList);
-			return view;
+			return initializeSectionView("politics", view, storyArrayList);
+
 		}
 	}
 
@@ -202,8 +202,8 @@ public class StoriesActivity extends AppCompatActivity {
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
 			storyArrayList = initializeStoryArrayList(storyArrayList);
-			initializeSectionView("science", view, storyArrayList);
-			return view;
+			return initializeSectionView("science", view, storyArrayList);
+
 		}
 	}
 
@@ -221,8 +221,8 @@ public class StoriesActivity extends AppCompatActivity {
 				Bundle savedInstanceState) {
 			View view = super.onCreateView(inflater, container, savedInstanceState);
 			storyArrayList = initializeStoryArrayList(storyArrayList);
-			initializeSectionView("technology", view, storyArrayList);
-			return view;
+			return initializeSectionView("technology", view, storyArrayList);
+
 		}
 	}
 

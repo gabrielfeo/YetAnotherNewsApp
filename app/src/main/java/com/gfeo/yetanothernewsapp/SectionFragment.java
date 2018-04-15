@@ -2,7 +2,6 @@ package com.gfeo.yetanothernewsapp;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.content.Context;
@@ -11,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,21 +45,41 @@ public class SectionFragment extends Fragment {
 		return inflater.inflate(R.layout.fragment_section, container, false);
 	}
 
-	protected void initializeStoriesLoader(int loaderId,
-	                                       String sectionId,
-	                                       ArrayList<Story> storyArrayList,
-	                                       View storiesView) {
+	protected void initializeStoriesList(int loaderId,
+	                                     StoriesLoaderCallbacks storiesLoaderCallbacks,
+	                                     ArrayList<Story> storyArrayList) {
 		if (storyArrayList.isEmpty()) {
-			final LoaderManager.LoaderCallbacks loaderCallbacks =
-					new StoriesLoaderCallbacks(sectionId, storyArrayList, storiesView);
-			Loader loader = getLoaderManager().initLoader(loaderId, null, loaderCallbacks);
-			if (loader != null) {
-				loader.forceLoad();
-			}
+			refreshStoriesList(loaderId, storiesLoaderCallbacks, storyArrayList);
 		}
 	}
 
-	protected void initializeSectionView(String sectionName,
+	private void refreshStoriesList(int loaderId,
+	                                StoriesLoaderCallbacks storiesLoaderCallbacks,
+	                                ArrayList<Story> storyArrayList) {
+		if (!storyArrayList.isEmpty()) {
+			storyArrayList.clear();
+		}
+		Loader loader = getActivity().getSupportLoaderManager()
+		                             .restartLoader(loaderId, null, storiesLoaderCallbacks);
+		if (loader != null) {
+			loader.forceLoad();
+		}
+	}
+
+	private void setOnRefreshAction(final View view,
+	                                final ArrayList<Story> storyArrayList,
+	                                final int loaderId,
+	                                final StoriesLoaderCallbacks storiesLoaderCallbacks) {
+		((SwipeRefreshLayout) view.findViewById(R.id.fragment_swiperefreshlayout))
+				.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+					@Override
+					public void onRefresh() {
+						refreshStoriesList(loaderId, storiesLoaderCallbacks, storyArrayList);
+					}
+				});
+	}
+
+	protected View initializeSectionView(String sectionName,
 	                                     View fragmentView,
 	                                     ArrayList<Story> storyArrayList) {
 		setupListView(fragmentView, storyArrayList);
@@ -71,10 +91,15 @@ public class SectionFragment extends Fragment {
 		String[] sectionStringArray = getContext().getResources()
 		                                          .getStringArray(sectionStringArrayResId);
 		int loaderId = Integer.valueOf(sectionStringArray[0]);
-		initializeStoriesLoader(loaderId, sectionStringArray[1], storyArrayList, fragmentView);
+		String sectionId = sectionStringArray[1];
+		StoriesLoaderCallbacks storiesLoaderCallbacks =
+				new StoriesLoaderCallbacks(sectionId, storyArrayList, fragmentView);
+		initializeStoriesList(loaderId, storiesLoaderCallbacks, storyArrayList);
+		setOnRefreshAction(fragmentView, storyArrayList, loaderId, storiesLoaderCallbacks);
+		return fragmentView;
 	}
 
-	protected void setupListView(View fragmentView, ArrayList<Story> storyArrayList) {
+	private void setupListView(View fragmentView, ArrayList<Story> storyArrayList) {
 		storyArrayAdapter = new StoryArrayAdapter(getActivity(),
 		                                          storyArrayList);
 		ListView listView = fragmentView.findViewById(R.id.fragment_listview);
@@ -92,7 +117,7 @@ public class SectionFragment extends Fragment {
 		});
 	}
 
-	protected static class StoriesLoader extends AsyncTaskLoader<ArrayList<Story>> {
+	private static class StoriesLoader extends AsyncTaskLoader<ArrayList<Story>> {
 
 		private final String mSectionId;
 		private final ArrayList<Story> mStoryArrayList;
@@ -172,22 +197,36 @@ public class SectionFragment extends Fragment {
 			return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
 		}
 
-		private void showProgressBar(View view) {
+		private void showProgressBar(View view) {SwipeRefreshLayout swipeRefreshLayout =
+				((SwipeRefreshLayout)view.findViewById(R.id.fragment_swiperefreshlayout));
+			if (swipeRefreshLayout.isRefreshing()){
+				return;
+			}
 			view.findViewById(R.id.fragment_textview_no_connection)
 			    .setVisibility(View.GONE);
-			view.findViewById(R.id.fragment_listview).setVisibility(View.GONE);
+			view.findViewById(R.id.fragment_swiperefreshlayout).setVisibility(View.GONE);
 			view.findViewById(R.id.fragment_progressbar).setVisibility(View.VISIBLE);
 		}
 
 		private void showStoriesList(View view) {
+			SwipeRefreshLayout swipeRefreshLayout =
+					((SwipeRefreshLayout)view.findViewById(R.id.fragment_swiperefreshlayout));
+			if (swipeRefreshLayout.isRefreshing()){
+					swipeRefreshLayout.setRefreshing(false);
+			}
 			view.findViewById(R.id.fragment_textview_no_connection)
 			    .setVisibility(View.GONE);
 			view.findViewById(R.id.fragment_progressbar).setVisibility(View.GONE);
-			view.findViewById(R.id.fragment_listview).setVisibility(View.VISIBLE);
+			view.findViewById(R.id.fragment_swiperefreshlayout).setVisibility(View.VISIBLE);
 		}
 
 		private void showNoConnectionView(View view) {
-			view.findViewById(R.id.fragment_listview).setVisibility(View.GONE);
+			SwipeRefreshLayout swipeRefreshLayout =
+					((SwipeRefreshLayout)view.findViewById(R.id.fragment_swiperefreshlayout));
+			if (swipeRefreshLayout.isRefreshing()){
+				swipeRefreshLayout.setRefreshing(false);
+			}
+			view.findViewById(R.id.fragment_swiperefreshlayout).setVisibility(View.GONE);
 			view.findViewById(R.id.fragment_progressbar).setVisibility(View.GONE);
 			view.findViewById(R.id.fragment_textview_no_connection)
 			    .setVisibility(View.VISIBLE);

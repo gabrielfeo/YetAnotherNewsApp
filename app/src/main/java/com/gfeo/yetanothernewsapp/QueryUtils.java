@@ -119,7 +119,10 @@ class QueryUtils {
 		String storyAuthor = "";
 		String storyLink = "";
 
-		//TODO Adapt JSON parser for the Guardian JSON response
+		if (!storyArrayList.isEmpty()){
+			storyArrayList.clear();
+		}
+
 		try {
 			JSONObject jsonResponse = new JSONObject(jsonResponseString).getJSONObject("response");
 			numberOfResults = jsonResponse.getInt("total");
