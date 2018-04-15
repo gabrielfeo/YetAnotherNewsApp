@@ -119,7 +119,7 @@ class QueryUtils {
 		String storyAuthor = "";
 		String storyLink = "";
 
-		if (!storyArrayList.isEmpty()){
+		if (!storyArrayList.isEmpty()) {
 			storyArrayList.clear();
 		}
 
