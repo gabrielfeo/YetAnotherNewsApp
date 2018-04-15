@@ -25,6 +25,8 @@ import java.util.ArrayList;
  */
 
 public class SectionFragment extends Fragment {
+
+	private int loaderId;
 	private StoryArrayAdapter storyArrayAdapter;
 
 	public SectionFragment() {
@@ -45,16 +47,14 @@ public class SectionFragment extends Fragment {
 		return inflater.inflate(R.layout.fragment_section, container, false);
 	}
 
-	protected void initializeStoriesList(int loaderId,
-	                                     StoriesLoaderCallbacks storiesLoaderCallbacks,
+	protected void initializeStoriesList(StoriesLoaderCallbacks storiesLoaderCallbacks,
 	                                     ArrayList<Story> storyArrayList) {
 		if (storyArrayList.isEmpty()) {
-			refreshStoriesList(loaderId, storiesLoaderCallbacks, storyArrayList);
+			refreshStoriesList(storiesLoaderCallbacks, storyArrayList);
 		}
 	}
 
-	private void refreshStoriesList(int loaderId,
-	                                StoriesLoaderCallbacks storiesLoaderCallbacks,
+	private void refreshStoriesList(StoriesLoaderCallbacks storiesLoaderCallbacks,
 	                                ArrayList<Story> storyArrayList) {
 		Loader loader = getActivity().getSupportLoaderManager()
 		                             .restartLoader(loaderId, null, storiesLoaderCallbacks);
@@ -65,13 +65,12 @@ public class SectionFragment extends Fragment {
 
 	private void setOnRefreshAction(final View view,
 	                                final ArrayList<Story> storyArrayList,
-	                                final int loaderId,
 	                                final StoriesLoaderCallbacks storiesLoaderCallbacks) {
 		((SwipeRefreshLayout) view.findViewById(R.id.fragment_swiperefreshlayout))
 				.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 					@Override
 					public void onRefresh() {
-						refreshStoriesList(loaderId, storiesLoaderCallbacks, storyArrayList);
+						refreshStoriesList(storiesLoaderCallbacks, storyArrayList);
 					}
 				});
 	}
@@ -87,12 +86,12 @@ public class SectionFragment extends Fragment {
 		                                                         getContext().getPackageName());
 		String[] sectionStringArray = getContext().getResources()
 		                                          .getStringArray(sectionStringArrayResId);
-		int loaderId = Integer.valueOf(sectionStringArray[0]);
+		loaderId = Integer.valueOf(sectionStringArray[0]);
 		String sectionId = sectionStringArray[1];
 		StoriesLoaderCallbacks storiesLoaderCallbacks =
 				new StoriesLoaderCallbacks(sectionId, storyArrayList, fragmentView);
-		initializeStoriesList(loaderId, storiesLoaderCallbacks, storyArrayList);
-		setOnRefreshAction(fragmentView, storyArrayList, loaderId, storiesLoaderCallbacks);
+		initializeStoriesList(storiesLoaderCallbacks, storyArrayList);
+		setOnRefreshAction(fragmentView, storyArrayList, storiesLoaderCallbacks);
 		return fragmentView;
 	}
 
