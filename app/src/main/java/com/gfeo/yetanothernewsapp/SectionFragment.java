@@ -31,11 +31,11 @@ public class SectionFragment extends Fragment {
 		super();
 	}
 
-	protected static ArrayList<Story> initializeStoryArrayList(ArrayList<Story> storyArrayList) {
-		if (storyArrayList == null) {
-			storyArrayList = new ArrayList<>();
+	protected static ArrayList initializeArrayListField(ArrayList arrayList) {
+		if (arrayList == null) {
+			arrayList = new ArrayList<>();
 		}
-		return storyArrayList;
+		return arrayList;
 	}
 
 	@Nullable
