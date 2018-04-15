@@ -2,6 +2,7 @@ package com.gfeo.yetanothernewsapp;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.content.Context;
@@ -26,8 +27,9 @@ import java.util.ArrayList;
 
 public class SectionFragment extends Fragment {
 
-	private int loaderId;
-	private StoryArrayAdapter storyArrayAdapter;
+	private int mLoaderId;
+	private StoriesLoaderCallbacks mStoriesLoaderCallbacks;
+	private StoryArrayAdapter mStoryArrayAdapter;
 
 	public SectionFragment() {
 		super();
@@ -47,30 +49,32 @@ public class SectionFragment extends Fragment {
 		return inflater.inflate(R.layout.fragment_section, container, false);
 	}
 
-	protected void initializeStoriesList(StoriesLoaderCallbacks storiesLoaderCallbacks,
-	                                     ArrayList<Story> storyArrayList) {
+	protected void initializeStoriesList(ArrayList<Story> storyArrayList) {
 		if (storyArrayList.isEmpty()) {
-			refreshStoriesList(storiesLoaderCallbacks, storyArrayList);
+			refreshStoriesList(storyArrayList);
 		}
 	}
 
-	private void refreshStoriesList(StoriesLoaderCallbacks storiesLoaderCallbacks,
-	                                ArrayList<Story> storyArrayList) {
-		Loader loader = getActivity().getSupportLoaderManager()
-		                             .restartLoader(loaderId, null, storiesLoaderCallbacks);
-		if (loader != null) {
-			loader.forceLoad();
+	private void refreshStoriesList(ArrayList<Story> storyArrayList) { //TODO Keep?
+		LoaderManager supportLoaderManager = getActivity().getSupportLoaderManager();
+		Loader loaderWithCurrentId = supportLoaderManager.getLoader(mLoaderId);
+		if (loaderWithCurrentId!=null){
+			supportLoaderManager.destroyLoader(mLoaderId);
+		}
+		loaderWithCurrentId = supportLoaderManager.initLoader(mLoaderId, null,
+		                                                         mStoriesLoaderCallbacks);
+		if (loaderWithCurrentId != null) {
+			loaderWithCurrentId.forceLoad();
 		}
 	}
 
 	private void setOnRefreshAction(final View view,
-	                                final ArrayList<Story> storyArrayList,
-	                                final StoriesLoaderCallbacks storiesLoaderCallbacks) {
+	                                final ArrayList<Story> storyArrayList) {
 		((SwipeRefreshLayout) view.findViewById(R.id.fragment_swiperefreshlayout))
 				.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 					@Override
 					public void onRefresh() {
-						refreshStoriesList(storiesLoaderCallbacks, storyArrayList);
+						refreshStoriesList(storyArrayList);
 					}
 				});
 	}
@@ -86,24 +90,24 @@ public class SectionFragment extends Fragment {
 		                                                         getContext().getPackageName());
 		String[] sectionStringArray = getContext().getResources()
 		                                          .getStringArray(sectionStringArrayResId);
-		loaderId = Integer.valueOf(sectionStringArray[0]);
+		mLoaderId = Integer.valueOf(sectionStringArray[0]);
 		String sectionId = sectionStringArray[1];
-		StoriesLoaderCallbacks storiesLoaderCallbacks =
+		mStoriesLoaderCallbacks =
 				new StoriesLoaderCallbacks(sectionId, storyArrayList, fragmentView);
-		initializeStoriesList(storiesLoaderCallbacks, storyArrayList);
-		setOnRefreshAction(fragmentView, storyArrayList, storiesLoaderCallbacks);
+		initializeStoriesList(storyArrayList);
+		setOnRefreshAction(fragmentView, storyArrayList);
 		return fragmentView;
 	}
 
 	private void setupListView(View fragmentView, ArrayList<Story> storyArrayList) {
-		storyArrayAdapter = new StoryArrayAdapter(getActivity(),
-		                                          storyArrayList);
+		mStoryArrayAdapter = new StoryArrayAdapter(getActivity(),
+		                                           storyArrayList);
 		ListView listView = fragmentView.findViewById(R.id.fragment_listview);
-		listView.setAdapter(storyArrayAdapter);
+		listView.setAdapter(mStoryArrayAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				final Story currentStory = storyArrayAdapter.getItem(position);
+				final Story currentStory = mStoryArrayAdapter.getItem(position);
 				Intent intent = new Intent(Intent.ACTION_VIEW,
 				                           currentStory.getLink());
 				if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -136,7 +140,7 @@ public class SectionFragment extends Fragment {
 		}
 	}
 
-	protected class StoriesLoaderCallbacks implements LoaderCallbacks {
+	private class StoriesLoaderCallbacks implements LoaderCallbacks {
 
 		private final String mSectionId;
 		private final ArrayList<Story> mStoryArrayList;
@@ -165,7 +169,7 @@ public class SectionFragment extends Fragment {
 		@Override
 		public void onLoadFinished(android.support.v4.content.Loader loader, Object data) {
 			showStoriesList(mStoriesView);
-			storyArrayAdapter.notifyDataSetChanged();
+			mStoryArrayAdapter.notifyDataSetChanged();
 		}
 
 		@Override
