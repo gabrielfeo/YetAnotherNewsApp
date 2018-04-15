@@ -31,10 +31,9 @@ class StoryArrayAdapter extends ArrayAdapter<Story> {
 		if (convertView == null) {
 			LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 			View container = layoutInflater.inflate(R.layout.container,
-			                                        null,
+			                                        parent,
 			                                        false
 			                                       );
-			//TODO Change to handle both the "All sections" tab and specific tabs
 			convertView = layoutInflater.inflate(R.layout.listitem_stories,
 			                                     (ViewGroup) container.findViewById(R.id.container)
 			                                    );
