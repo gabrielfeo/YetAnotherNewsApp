@@ -24,8 +24,7 @@
 		app:layout_constraintEnd_toEndOf = "parent"
 		app:layout_constraintStart_toStartOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent"
-		app:layout_constraintVertical_chainStyle = "packed"
-		tools:text = "@string/test_headline" />
+		app:layout_constraintVertical_chainStyle = "packed" />
 
 	<TextView
 		android:id = "@+id/listitem_stories_author"
@@ -36,8 +35,7 @@
 		app:layout_constraintBottom_toTopOf = "@id/listitem_stories_datetime"
 		app:layout_constraintEnd_toEndOf = "parent"
 		app:layout_constraintStart_toStartOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@id/listitem_stories_headline"
-		tools:text = "@string/test_author" />
+		app:layout_constraintTop_toBottomOf = "@id/listitem_stories_headline"/>
 
 	<TextView
 		android:id = "@+id/listitem_stories_datetime"
@@ -47,8 +45,7 @@
 		app:layout_constraintBottom_toBottomOf = "parent"
 		app:layout_constraintEnd_toStartOf = "@id/listitem_stories_section"
 		app:layout_constraintStart_toStartOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@id/listitem_stories_author"
-		tools:text = "@string/test_datetime" />
+		app:layout_constraintTop_toBottomOf = "@id/listitem_stories_author"/>
 
 	<TextView
 		android:id = "@+id/listitem_stories_section"
@@ -59,7 +56,6 @@
 		app:layout_constraintBottom_toBottomOf = "@id/listitem_stories_datetime"
 		app:layout_constraintEnd_toEndOf = "parent"
 		app:layout_constraintStart_toEndOf = "@id/listitem_stories_datetime"
-		app:layout_constraintTop_toTopOf = "@id/listitem_stories_datetime"
-		tools:text = "@string/test_section" />
+		app:layout_constraintTop_toTopOf = "@id/listitem_stories_datetime"/>
 
 </android.support.constraint.ConstraintLayout>
