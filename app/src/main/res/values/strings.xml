@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools = "http://schemas.android.com/tools"
-	tools:keep="@string/stories_*,@string/tabname_">
+	tools:keep = "@string/stories_*,@string/tabname_*">
 
 	<string name = "app_name">Yet Another News App</string>
+
+	<!--Contextual message displayed in place of the list when there isn't a connection available-->
 	<string name = "stories_fragment_no_connection">You have no internet connection\nPlease
 	try again later</string>
 

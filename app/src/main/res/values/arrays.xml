@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools = "http://schemas.android.com/tools"
-	tools:keep="@array/section_*">
+<resources xmlns:tools = "http://schemas.android.com/tools" tools:keep = "@array/section_*">
 
+	<!-- These arrays' values contain an integer to be used as a loader ID and a section ID for
+	the API query (see SectionFragment.java) -->
 	<!--suppress CheckTagEmptyBody -->
 	<string-array name = "section_all">
 		<item>0</item>
