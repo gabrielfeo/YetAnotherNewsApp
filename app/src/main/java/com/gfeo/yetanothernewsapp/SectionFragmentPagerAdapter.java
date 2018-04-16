@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 
-	private Context mContext;
+	private final Context mContext;
 
 	SectionFragmentPagerAdapter(Context context, FragmentManager fragmentManager) {
 		super(fragmentManager);
@@ -94,7 +94,7 @@ class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 				fragment = new StoriesActivity.ScienceSectionFragment();
 				break;
 			case 9:
-				fragment = new StoriesActivity.TechSectionFragment();;
+				fragment = new StoriesActivity.TechSectionFragment();
 				break;
 		}
 		return fragment;

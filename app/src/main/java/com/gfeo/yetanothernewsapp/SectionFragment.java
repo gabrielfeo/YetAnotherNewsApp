@@ -49,7 +49,7 @@ public class SectionFragment extends Fragment {
 		return inflater.inflate(R.layout.fragment_section, container, false);
 	}
 
-	private void refreshStoriesList(ArrayList<Story> storyArrayList) { //TODO Keep?
+	private void refreshStoriesList() {
 		LoaderManager supportLoaderManager = getActivity().getSupportLoaderManager();
 		Loader loaderWithCurrentId = supportLoaderManager.getLoader(mLoaderId);
 		if (loaderWithCurrentId != null) {
@@ -62,13 +62,12 @@ public class SectionFragment extends Fragment {
 		}
 	}
 
-	private void setOnRefreshAction(final View view,
-	                                final ArrayList<Story> storyArrayList) {
+	private void setOnRefreshAction(final View view) {
 		((SwipeRefreshLayout) view.findViewById(R.id.fragment_swiperefreshlayout))
 				.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 					@Override
 					public void onRefresh() {
-						refreshStoriesList(storyArrayList);
+						refreshStoriesList();
 					}
 				});
 	}
@@ -77,14 +76,14 @@ public class SectionFragment extends Fragment {
 	                                     View fragmentView,
 	                                     ArrayList<Story> storyArrayList) {
 		setupListView(fragmentView, storyArrayList);
-		setOnRefreshAction(fragmentView, storyArrayList);
+		setOnRefreshAction(fragmentView);
 		String[] sectionStringArray = getSectionStringArray(sectionName);
 		mLoaderId = Integer.valueOf(sectionStringArray[0]);
 		String sectionId = sectionStringArray[1];
 		mStoriesLoaderCallbacks =
 				new StoriesLoaderCallbacks(sectionId, storyArrayList, fragmentView);
 		if (storyArrayList.isEmpty()) {
-			refreshStoriesList(storyArrayList);
+			refreshStoriesList();
 		}
 		return fragmentView;
 	}

@@ -1,5 +1,6 @@
 package com.gfeo.yetanothernewsapp;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.util.Log;
 
@@ -29,7 +30,6 @@ class QueryUtils {
 	static int numberOfResults;
 	static int maxResults;
 
-	//TODO Change to Guardian URL
 	static URL buildQueryUrl(String searchQuery, String sectionId) {
 		Uri.Builder uriBuilder = new Uri.Builder();
 		uriBuilder.scheme("https")
@@ -59,11 +59,11 @@ class QueryUtils {
 
 	private static String parseUtcDate(String utcDateString) {
 		String dateString = utcDateString;
-		DateFormat utcDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		@SuppressLint("SimpleDateFormat") DateFormat utcDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 		utcDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		try {
 			Date date = utcDateFormat.parse(dateString);
-			DateFormat storyDateFormat= new SimpleDateFormat("EEE, MMM dd, HH:mm");
+			@SuppressLint("SimpleDateFormat") DateFormat storyDateFormat= new SimpleDateFormat("EEE, MMM dd, HH:mm");
 			storyDateFormat.setTimeZone(TimeZone.getDefault());
 			dateString = storyDateFormat.format(date);
 		} catch (ParseException e) {
@@ -163,7 +163,6 @@ class QueryUtils {
 
 				//Try getting the story date and time
 				try {
-					//TODO format the date and time
 					storyDateTime = currentResult.getString("webPublicationDate");
 					storyDateTime = parseUtcDate(storyDateTime);
 				} catch (JSONException e) {

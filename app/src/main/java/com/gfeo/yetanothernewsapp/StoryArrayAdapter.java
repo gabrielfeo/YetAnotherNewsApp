@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 class StoryArrayAdapter extends ArrayAdapter<Story> {
 
-	private Context mContext;
+	private final Context mContext;
 
 	StoryArrayAdapter(Context context, ArrayList<Story> storyArrayList) {
 		super(context, 0, storyArrayList);
@@ -52,7 +52,6 @@ class StoryArrayAdapter extends ArrayAdapter<Story> {
 		//Set the current story headline
 		viewHolder.textViewHeadline.setText(currentStory.getHeadline());
 		//Set the current story section
-		//TODO Change to handle both the "All sections" tab and specific tabs
 		String storySection = "in " + currentStory.getSection();
 		viewHolder.textViewSection.setText(storySection);
 		//Set the current story date and time

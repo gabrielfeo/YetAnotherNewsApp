@@ -8,11 +8,11 @@ import android.net.Uri;
 
 class Story {
 
-	private String mHeadline;
-	private String mDateTime;
-	private String mSection;
-	private String mAuthor;
-	private Uri mLink;
+	private final String mHeadline;
+	private final String mDateTime;
+	private final String mSection;
+	private final String mAuthor;
+	private final Uri mLink;
 
 	Story(String headline, String dateTime, String author, String section, String link) {
 		mHeadline = headline;
