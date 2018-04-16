@@ -15,7 +15,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 class QueryUtils {
@@ -50,6 +55,23 @@ class QueryUtils {
 			Log.e(LOG_TAG, "Error creating URL ", e);
 		}
 		return url;
+	}
+
+	private static String parseUtcDate(String utcDateString) {
+		String dateString = utcDateString;
+		DateFormat utcDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		utcDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		try {
+			Date date = utcDateFormat.parse(dateString);
+			DateFormat storyDateFormat= new SimpleDateFormat("EEE, MMM dd, HH:mm");
+			storyDateFormat.setTimeZone(TimeZone.getDefault());
+			dateString = storyDateFormat.format(date);
+		} catch (ParseException e) {
+			Log.e(LOG_TAG, "Error parsing dateTime String", e);
+		} catch (IllegalArgumentException e) {
+			Log.e(LOG_TAG, "Error formatting dateTime String", e);
+		}
+		return dateString;
 	}
 
 	static String makeHttpRequest(URL url) {
@@ -143,6 +165,7 @@ class QueryUtils {
 				try {
 					//TODO format the date and time
 					storyDateTime = currentResult.getString("webPublicationDate");
+					storyDateTime = parseUtcDate(storyDateTime);
 				} catch (JSONException e) {
 					checkForPermittedJsonException(e);
 				}
