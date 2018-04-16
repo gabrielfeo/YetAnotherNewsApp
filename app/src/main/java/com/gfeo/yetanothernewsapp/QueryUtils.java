@@ -27,22 +27,18 @@ import java.util.TimeZone;
 class QueryUtils {
 
 	private final static String LOG_TAG = QueryUtils.class.getSimpleName();
-	static int numberOfResults;
-	static int maxResults;
+	private final static String pageSizeValue = "20";
 
-	static URL buildQueryUrl(String searchQuery, String sectionId) {
+	static URL buildQueryUrl(String sectionId) {
 		Uri.Builder uriBuilder = new Uri.Builder();
 		uriBuilder.scheme("https")
 		          .authority("content.guardianapis.com")
 		          .appendPath("search")
 		          .appendQueryParameter("show-fields", "headline,byline")
-		          .appendQueryParameter("page-size", "20")
+		          .appendQueryParameter("page-size", pageSizeValue)
 		          .appendQueryParameter("api-key", "test");
 		if (!sectionId.isEmpty()) {
 			uriBuilder.appendQueryParameter("section", sectionId);
-		}
-		if (!searchQuery.isEmpty()) {
-			uriBuilder.appendQueryParameter("q", searchQuery);
 		}
 		return createUrl(uriBuilder.toString());
 	}
@@ -59,11 +55,13 @@ class QueryUtils {
 
 	private static String parseUtcDate(String utcDateString) {
 		String dateString = utcDateString;
-		@SuppressLint("SimpleDateFormat") DateFormat utcDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		@SuppressLint("SimpleDateFormat") DateFormat utcDateFormat = new SimpleDateFormat
+				("yyyy-MM-dd'T'HH:mm:ss'Z'");
 		utcDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		try {
 			Date date = utcDateFormat.parse(dateString);
-			@SuppressLint("SimpleDateFormat") DateFormat storyDateFormat= new SimpleDateFormat("EEE, MMM dd, HH:mm");
+			@SuppressLint("SimpleDateFormat") DateFormat storyDateFormat = new SimpleDateFormat
+					("EEE, MMM dd, HH:mm");
 			storyDateFormat.setTimeZone(TimeZone.getDefault());
 			dateString = storyDateFormat.format(date);
 		} catch (ParseException e) {
@@ -147,14 +145,9 @@ class QueryUtils {
 
 		try {
 			JSONObject jsonResponse = new JSONObject(jsonResponseString).getJSONObject("response");
-			numberOfResults = jsonResponse.getInt("total");
-			//TODO maxResults settings sets pagesize
-			maxResults = jsonResponse.getInt("pageSize");
 			JSONArray resultsArray = jsonResponse.getJSONArray("results");
-			int maxIterations = (numberOfResults < maxResults)
-			                    ? numberOfResults
-			                    : maxResults;
-			for (int i = 0; i < maxIterations; i++) {
+
+			for (int i = 0; i < Integer.valueOf(pageSizeValue); i++) {
 				JSONObject currentResult = resultsArray.getJSONObject(i);
 				JSONObject requestedFields = currentResult.getJSONObject("fields");
 
