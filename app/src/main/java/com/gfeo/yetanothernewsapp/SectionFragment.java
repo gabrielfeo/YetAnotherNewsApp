@@ -119,19 +119,17 @@ public class SectionFragment extends Fragment {
 
 		private final String mSectionId;
 		private final ArrayList<Story> mStoryArrayList;
-		private String mSearchQuery = "";
 
-		StoriesLoader(Context context, String searchQuery, String sectionId,
+		StoriesLoader(Context context, String sectionId,
 		              ArrayList<Story> storyArrayList) {
 			super(context);
-			mSearchQuery = searchQuery;
 			mSectionId = sectionId;
 			mStoryArrayList = storyArrayList;
 		}
 
 		@Override
 		public ArrayList<Story> loadInBackground() {
-			URL queryUrl = QueryUtils.buildQueryUrl(mSearchQuery, mSectionId);
+			URL queryUrl = QueryUtils.buildQueryUrl(mSectionId);
 			String jsonResponse = QueryUtils.makeHttpRequest(queryUrl);
 			QueryUtils.parseJsonToArrayList(jsonResponse, mStoryArrayList);
 			return mStoryArrayList;
@@ -157,7 +155,7 @@ public class SectionFragment extends Fragment {
 		public android.support.v4.content.Loader onCreateLoader(int id, Bundle args) {
 			if (existsActiveNetworkConnection()) {
 				showProgressBar(mStoriesView);
-				return new StoriesLoader(getActivity(), "", mSectionId, mStoryArrayList);
+				return new StoriesLoader(getActivity(), mSectionId, mStoryArrayList);
 			} else {
 				showNoConnectionView(mStoriesView);
 				return null;
