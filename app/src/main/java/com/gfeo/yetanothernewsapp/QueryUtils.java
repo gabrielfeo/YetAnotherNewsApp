@@ -167,7 +167,6 @@ class QueryUtils {
 					storyAuthor = requestedFields.getString("byline");
 				} catch (JSONException e) {
 					checkForPermittedJsonException(e);
-					storyAuthor = "Author name not available";
 				}
 
 				//Get the section name

@@ -60,15 +60,16 @@ class StoryArrayAdapter extends ArrayAdapter<Story> {
 			storyDateTime += ", ";
 		}
 		viewHolder.textViewDateTime.setText(storyDateTime);
-		//Set the current story author
+		//Set the current story author, if available
 		String storyAuthor = currentStory.getAuthor();
-		if (storyAuthor.equals("Letters")) {
+		if (storyAuthor.isEmpty()) {
+			storyAuthor = "No author name available";
+		} else if (storyAuthor.equals("Letters")) {
 			storyAuthor = "Letter";
-		} else if (!storyAuthor.isEmpty()) {
+		} else {
 			storyAuthor = "by " + storyAuthor;
 		}
 		viewHolder.textViewAuthor.setText(storyAuthor);
-
 		return convertView;
 	}
 
