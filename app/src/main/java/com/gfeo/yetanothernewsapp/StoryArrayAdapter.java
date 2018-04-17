@@ -12,7 +12,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by gabrielfeo on 2018/04/13.
+ * An Adapter of {@link Story} objects. Provides ready Views for ListViews. Employs a
+ * View holder ({@link ViewHolder}) pattern to avoid repetitive calling of the
+ * {@link View#findViewById(int)} method.
+ *
+ * @author gabrielfeo
  */
 
 class StoryArrayAdapter extends ArrayAdapter<Story> {
@@ -24,6 +28,11 @@ class StoryArrayAdapter extends ArrayAdapter<Story> {
 		mContext = context;
 	}
 
+	/**
+	 * Gets the {@link View} of the list item at the specified position and inflates it if it
+	 * doesn't exist. Then, sets the text of the TextViews to the Strings provided by the accessor
+	 * methods of the {@link Story} object at the current position.
+	 */
 	@NonNull
 	@Override
 	public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -73,6 +82,12 @@ class StoryArrayAdapter extends ArrayAdapter<Story> {
 		return convertView;
 	}
 
+	/**
+	 * Holds View references in order to avoid calling the {@link View#findViewById(int)} method
+	 * repetitively.
+	 *
+	 * @author gabrielfeo
+	 */
 	private class ViewHolder {
 		TextView textViewHeadline;
 		TextView textViewDateTime;
