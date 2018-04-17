@@ -6,23 +6,45 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 /**
- * Created by gabrielfeo on 2018/04/13.
+ * A simple {@link FragmentPagerAdapter} implementation. Each fragment displays a news section,
+ * e.g. {@link StoriesActivity.ArtSectionFragment}.
+ *
+ * @author gabrielfeo
+ * @see StoriesActivity
  */
-
 class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 
 	private final Context mContext;
 
+	/**
+	 * Gets a {@link Context} for resource-fetching.
+	 *
+	 * @param context         a {@code Context} for resource-fetching
+	 * @param fragmentManager a {@link FragmentManager} for the superclass' constructor
+	 */
 	SectionFragmentPagerAdapter(Context context, FragmentManager fragmentManager) {
 		super(fragmentManager);
 		mContext = context;
 	}
 
+	/**
+	 * Returns the number of fragments available.
+	 *
+	 * @return the number of fragments available
+	 */
 	@Override
 	public int getCount() {
 		return 10;
 	}
 
+	/**
+	 * Returns the page title according to the {@code position} parameter. The titles are fetched
+	 * from String resources using the {@link Context} provided by the
+	 * {@link #SectionFragmentPagerAdapter(Context, FragmentManager)} constructor.
+	 *
+	 * @param position the current page position in the ViewPager
+	 * @return the title of the current page
+	 */
 	@Override
 	public CharSequence getPageTitle(int position) {
 		String pageTitle = "";
@@ -62,6 +84,14 @@ class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 
 	}
 
+	/**
+	 * Returns the page fragment according to the {@code position} parameter. Each fragment
+	 * displays a news section to the user, e.g. {@link StoriesActivity.ScienceSectionFragment}.
+	 *
+	 * @param position the current page position in the ViewPager
+	 * @return the fragment to be displayed in the current page
+	 * @see StoriesActivity
+	 */
 	@Override
 	public Fragment getItem(int position) {
 		SectionFragment fragment = null;
