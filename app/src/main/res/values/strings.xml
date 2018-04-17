@@ -8,15 +8,4 @@
 	<string name = "stories_fragment_no_connection">You have no internet connection\nPlease
 	try again later</string>
 
-	<string name = "tabname_all">All</string>
-	<string name = "tabname_art">Art</string>
-	<string name = "tabname_business">Business</string>
-	<string name = "tabname_culture">Culture</string>
-	<string name = "tabname_media">Media</string>
-	<string name = "tabname_money">Money</string>
-	<string name = "tabname_opinion">Opinion</string>
-	<string name = "tabname_politics">Politics</string>
-	<string name = "tabname_science">Science</string>
-	<string name = "tabname_technology">Tech</string>
-
 </resources>

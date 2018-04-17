@@ -45,4 +45,17 @@
 		<item>technology</item>
 	</string-array>
 
+	<string-array name = "tab_names">
+		<item>All</item>
+		<item>Art</item>
+		<item>Business</item>
+		<item>Culture</item>
+		<item>Media</item>
+		<item>Money</item>
+		<item>Opinion</item>
+		<item>Politics</item>
+		<item>Science</item>
+		<item>Technology</item>
+	</string-array>
+
 </resources>

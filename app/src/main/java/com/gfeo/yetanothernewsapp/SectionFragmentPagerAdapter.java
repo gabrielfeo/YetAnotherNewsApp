@@ -14,74 +14,38 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 
-	private final Context mContext;
+	private final String[] mTabNamesStringArray;
 
 	/**
-	 * Gets a {@link Context} for resource-fetching.
-	 *
-	 * @param context         a {@code Context} for resource-fetching
-	 * @param fragmentManager a {@link FragmentManager} for the superclass' constructor
+	 * @param tabNamesStringArray an array of Strings containing the tab names
+	 * @param fragmentManager     a {@link FragmentManager} for the superclass' constructor
 	 */
-	SectionFragmentPagerAdapter(Context context, FragmentManager fragmentManager) {
+	SectionFragmentPagerAdapter(FragmentManager fragmentManager, String[] tabNamesStringArray) {
 		super(fragmentManager);
-		mContext = context;
+		mTabNamesStringArray = tabNamesStringArray;
 	}
 
 	/**
-	 * Returns the number of fragments available.
+	 * Returns the number of fragments available, equivalent to the length of the string array of
+	 * tab names.
 	 *
 	 * @return the number of fragments available
 	 */
 	@Override
 	public int getCount() {
-		return 10;
+		return mTabNamesStringArray.length;
 	}
 
 	/**
 	 * Returns the page title according to the {@code position} parameter. The titles are fetched
-	 * from String resources using the {@link Context} provided by the
-	 * {@link #SectionFragmentPagerAdapter(Context, FragmentManager)} constructor.
+	 * from a String array assigned by the constructor.
 	 *
 	 * @param position the current page position in the ViewPager
 	 * @return the title of the current page
 	 */
 	@Override
 	public CharSequence getPageTitle(int position) {
-		String pageTitle = "";
-		switch (position) {
-			case 0:
-				pageTitle = mContext.getString(R.string.tabname_all);
-				break;
-			case 1:
-				pageTitle = mContext.getString(R.string.tabname_art);
-				break;
-			case 2:
-				pageTitle = mContext.getString(R.string.tabname_business);
-				break;
-			case 3:
-				pageTitle = mContext.getString(R.string.tabname_culture);
-				break;
-			case 4:
-				pageTitle = mContext.getString(R.string.tabname_media);
-				break;
-			case 5:
-				pageTitle = mContext.getString(R.string.tabname_money);
-				break;
-			case 6:
-				pageTitle = mContext.getString(R.string.tabname_opinion);
-				break;
-			case 7:
-				pageTitle = mContext.getString(R.string.tabname_politics);
-				break;
-			case 8:
-				pageTitle = mContext.getString(R.string.tabname_science);
-				break;
-			case 9:
-				pageTitle = mContext.getString(R.string.tabname_technology);
-				break;
-		}
-		return pageTitle;
-
+		return mTabNamesStringArray[position];
 	}
 
 	/**

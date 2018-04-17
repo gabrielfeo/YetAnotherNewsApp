@@ -41,9 +41,9 @@ public class StoriesActivity extends AppCompatActivity {
 	private void setupViewPager() {
 		ViewPager viewPager = findViewById(R.id.stories_viewpager);
 		TabLayout tabLayout = (findViewById(R.id.stories_tablayout));
-
-		viewPager.setAdapter(new SectionFragmentPagerAdapter(this,
-		                                                     getSupportFragmentManager()));
+		String[] tabNames = getResources().getStringArray(R.array.tab_names);
+		viewPager.setAdapter(new SectionFragmentPagerAdapter(getSupportFragmentManager(),
+		                                                     tabNames));
 		tabLayout.setupWithViewPager(viewPager);
 	}
 
