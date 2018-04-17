@@ -13,11 +13,18 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 /**
- * Created by gabrielfeo on 2018/04/11.
+ * Displays a {@link ViewPager} of {@link SectionFragment} subclasses to the user. Each fragment
+ * View represents a news section.
+ *
+ * @author gabrielfeo
  */
 
 public class StoriesActivity extends AppCompatActivity {
 
+	/**
+	 * Sets the layout to be displayed in the Activity, the Toolbar and configures the layout's
+	 * {@link ViewPager} using the {@link #setupViewPager()} method.
+	 */
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,6 +33,11 @@ public class StoriesActivity extends AppCompatActivity {
 		setupViewPager();
 	}
 
+	/**
+	 * Configures the Activity's layout's {@link ViewPager} with a
+	 * {@link SectionFragmentPagerAdapter}. Also sets the {@link TabLayout} View to work with the
+	 * {@code ViewPager}.
+	 */
 	private void setupViewPager() {
 		ViewPager viewPager = findViewById(R.id.stories_viewpager);
 		TabLayout tabLayout = (findViewById(R.id.stories_tablayout));
@@ -35,8 +47,18 @@ public class StoriesActivity extends AppCompatActivity {
 		tabLayout.setupWithViewPager(viewPager);
 	}
 
+	/**
+	 * A {@code SectionFragment} representing the "All" section, namely, a section containing
+	 * news stories from all sections.
+	 *
+	 * @author gabrielfeo
+	 */
 	public static class AllSectionFragment extends SectionFragment {
 
+		/**
+		 * A static {@link ArrayList} containing the news stories that should be loaded into the
+		 * {@link android.support.v4.app.Fragment}'s layout's {@link android.widget.ListView}.
+		 */
 		private static ArrayList<Story> storyArrayList;
 
 		public AllSectionFragment() {
@@ -55,8 +77,17 @@ public class StoriesActivity extends AppCompatActivity {
 
 	}
 
+	/**
+	 * A {@code SectionFragment} representing the "Art and Design" section.
+	 *
+	 * @author gabrielfeo
+	 */
 	public static class ArtSectionFragment extends SectionFragment {
 
+		/**
+		 * A static {@link ArrayList} containing the news stories that should be loaded into the
+		 * {@link android.support.v4.app.Fragment}'s layout's {@link android.widget.ListView}.
+		 */
 		private static ArrayList<Story> storyArrayList;
 
 		public ArtSectionFragment() {
@@ -74,8 +105,17 @@ public class StoriesActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * A {@code SectionFragment} representing the "Business" section.
+	 *
+	 * @author gabrielfeo
+	 */
 	public static class BusinessSectionFragment extends SectionFragment {
 
+		/**
+		 * A static {@link ArrayList} containing the news stories that should be loaded into the
+		 * {@link android.support.v4.app.Fragment}'s layout's {@link android.widget.ListView}.
+		 */
 		private static ArrayList<Story> storyArrayList;
 
 		public BusinessSectionFragment() {
@@ -93,8 +133,17 @@ public class StoriesActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * A {@code SectionFragment} representing the "Culture" section.
+	 *
+	 * @author gabrielfeo
+	 */
 	public static class CultureSectionFragment extends SectionFragment {
 
+		/**
+		 * A static {@link ArrayList} containing the news stories that should be loaded into the
+		 * {@link android.support.v4.app.Fragment}'s layout's {@link android.widget.ListView}.
+		 */
 		private static ArrayList<Story> storyArrayList;
 
 		public CultureSectionFragment() {
@@ -112,8 +161,17 @@ public class StoriesActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * A {@code SectionFragment} representing the "Media" section.
+	 *
+	 * @author gabrielfeo
+	 */
 	public static class MediaSectionFragment extends SectionFragment {
 
+		/**
+		 * A static {@link ArrayList} containing the news stories that should be loaded into the
+		 * {@link android.support.v4.app.Fragment}'s layout's {@link android.widget.ListView}.
+		 */
 		private static ArrayList<Story> storyArrayList;
 
 		public MediaSectionFragment() {
@@ -131,8 +189,17 @@ public class StoriesActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * A {@code SectionFragment} representing the "Money" section.
+	 *
+	 * @author gabrielfeo
+	 */
 	public static class MoneySectionFragment extends SectionFragment {
 
+		/**
+		 * A static {@link ArrayList} containing the news stories that should be loaded into the
+		 * {@link android.support.v4.app.Fragment}'s layout's {@link android.widget.ListView}.
+		 */
 		private static ArrayList<Story> storyArrayList;
 
 		public MoneySectionFragment() {
@@ -150,8 +217,17 @@ public class StoriesActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * A {@code SectionFragment} representing the "Opinion" section.
+	 *
+	 * @author gabrielfeo
+	 */
 	public static class OpinionSectionFragment extends SectionFragment {
 
+		/**
+		 * A static {@link ArrayList} containing the news stories that should be loaded into the
+		 * {@link android.support.v4.app.Fragment}'s layout's {@link android.widget.ListView}.
+		 */
 		private static ArrayList<Story> storyArrayList;
 
 		public OpinionSectionFragment() {
@@ -169,8 +245,17 @@ public class StoriesActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * A {@code SectionFragment} representing the "Politics" section.
+	 *
+	 * @author gabrielfeo
+	 */
 	public static class PoliticsSectionFragment extends SectionFragment {
 
+		/**
+		 * A static {@link ArrayList} containing the news stories that should be loaded into the
+		 * {@link android.support.v4.app.Fragment}'s layout's {@link android.widget.ListView}.
+		 */
 		private static ArrayList<Story> storyArrayList;
 
 		public PoliticsSectionFragment() {
@@ -188,8 +273,17 @@ public class StoriesActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * A {@code SectionFragment} representing the "Science" section.
+	 *
+	 * @author gabrielfeo
+	 */
 	public static class ScienceSectionFragment extends SectionFragment {
 
+		/**
+		 * A static {@link ArrayList} containing the news stories that should be loaded into the
+		 * {@link android.support.v4.app.Fragment}'s layout's {@link android.widget.ListView}.
+		 */
 		private static ArrayList<Story> storyArrayList;
 
 		public ScienceSectionFragment() {
@@ -207,8 +301,17 @@ public class StoriesActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * A {@code SectionFragment} representing the "Technology" section.
+	 *
+	 * @author gabrielfeo
+	 */
 	public static class TechSectionFragment extends SectionFragment {
 
+		/**
+		 * A static {@link ArrayList} containing the news stories that should be loaded into the
+		 * {@link android.support.v4.app.Fragment}'s layout's {@link android.widget.ListView}.
+		 */
 		private static ArrayList<Story> storyArrayList;
 
 		public TechSectionFragment() {
