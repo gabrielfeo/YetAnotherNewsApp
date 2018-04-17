@@ -36,16 +36,16 @@ class QueryUtils {
 	/**
 	 * A String setting a maximum number of news stories for the API to return
 	 *
-	 * @see QueryUtils#buildQueryUrl(String)
+	 * @see #buildQueryUrl(String)
 	 */
 	private final static String pageSizeValue = "20";
 
 	/**
 	 * <p>Builds the query URL using a {@link Uri.Builder} and the
-	 * {@link QueryUtils#createUrl(String)} method.</p>
+	 * {@link #createUrl(String)} method.</p>
 	 * <p>The {@code Uri.Builder} appends query parameters that request the story headline and
 	 * byline specifically, and sets the <i>page-size</i> parameter according to the
-	 * {@link QueryUtils#pageSizeValue} field (this is the limit number of news stories to be
+	 * {@link #pageSizeValue} field (this is the limit number of news stories to be
 	 * returned from the API).</p>
 	 *
 	 * @param sectionId the section ID value for the <i>section</i> parameter. This differs from
@@ -185,17 +185,15 @@ class QueryUtils {
 	 * API</i></a> to an {@link ArrayList} of {@link Story} objects.</p>
 	 * <p>First, the {@code ArrayList} is cleared (if not empty already), so that the list items
 	 * aren't duplicated when this method is called on a list refresh. Then, a loop is started
-	 * and iterated according to the
-	 * {@link QueryUtils#pageSizeValue} field, thus precisely to the number of stories in the
-	 * response. The loop retrieves Strings from the JSON containing the story headline, author,
-	 * publication date and time, section name, and a link to the story page on the website,
-	 * namely, the fields of a {@code Story} object. Finally, each retrieved value, empty or
-	 * not, is used as an argument to the
+	 * and iterated according to the {@link #pageSizeValue} field, thus precisely to the number
+	 * of stories in the response. The loop retrieves Strings from the JSON containing the story
+	 * headline, author, publication date and time, section name, and a link to the story page on
+	 * the website, namely, the fields of a {@code Story} object. Finally, each retrieved value,
+	 * empty or not, is used as an argument to the
 	 * {@link Story#Story(String, String, String, String, String)} constructor.</p>
 	 *
 	 * @param jsonResponseString the JSON response to be parsed, in a String object
-	 * @param storyArrayList     the {@code ArrayList<Story>} the JSON will
-	 *                           be parsed to
+	 * @param storyArrayList     the {@code ArrayList<Story>} the JSON will be parsed to
 	 * @return the fully populated {@code ArrayList<Story>}
 	 */
 	static ArrayList<Story> parseJsonToArrayList(String jsonResponseString,

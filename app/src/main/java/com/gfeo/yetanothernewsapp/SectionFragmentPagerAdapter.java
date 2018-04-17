@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 /**
  * A simple {@link FragmentPagerAdapter} implementation. Each fragment displays a news section,
- * e.g. {@link StoriesActivity.ArtSectionFragment}.
+ * for example, a {@link StoriesActivity.ArtSectionFragment}.
  *
  * @author gabrielfeo
  * @see StoriesActivity
