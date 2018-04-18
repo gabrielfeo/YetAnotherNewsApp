@@ -30,14 +30,15 @@ import java.util.ArrayList;
 public class SectionFragment extends Fragment {
 
 	/**
-	 * An array of 10 {@code ArrayList<Story>} objects. This field is static so that
+	 * An array of {@code ArrayList<Story>} objects. This field is static so that
 	 * the loaded stories list of each section isn't lost when the fragments are reinstantiated.
 	 * Each element in the array is an {@code ArrayList} of Stories of an individual news section.
 	 *
-	 * @see #newInstance(int)
+	 * @see #initializeArrayListArray()
 	 * @see #initializeArrayListArrayElement(int)
+	 * @see #newInstance(int, int)
 	 */
-	private static ArrayList<Story>[] storyArrayListArray = new ArrayList[10];
+	private static ArrayList<Story>[] storyArrayListArray;
 	/** An int loader ID for a {@link StoriesLoader}. */
 	private int mLoaderId;
 	/** A set of {@code StoriesLoaderCallbacks} for a {@link StoriesLoader} */
@@ -49,18 +50,6 @@ public class SectionFragment extends Fragment {
 	}
 
 	/**
-	 * Assigns a new {@link ArrayList} to the {@link #storyArrayListArray} element at the specified
-	 * position, if it hasn't been assigned one already.
-	 *
-	 * @param index an int indicating what element of the array should be null-checked
-	 */
-	private static void initializeArrayListArrayElement(int index) {
-		if (storyArrayListArray[index] == null) {
-			storyArrayListArray[index] = new ArrayList<>();
-		}
-	}
-
-	/**
 	 * Instantiates a {@code SectionFragment} with a {@link Bundle} indicating its current position
 	 * in the {@code ViewPager}. This position {@code int} will be used to determine what stories
 	 * list should be loaded and displayed, and also individual {@link StoriesLoaderCallbacks}
@@ -69,12 +58,37 @@ public class SectionFragment extends Fragment {
 	 * @param position the position fo the current fragment instance in the {@code ViewPager}
 	 * @return a new {@code SectionFragment} instance with the {@code Bundle}
 	 */
-	static SectionFragment newInstance(int position) {
+	static SectionFragment newInstance(int viewPagerCount, int position) {
 		SectionFragment fragment = new SectionFragment();
 		Bundle arguments = new Bundle();
+		arguments.putInt("viewPagerCount", viewPagerCount);
 		arguments.putInt("position", position);
 		fragment.setArguments(arguments);
 		return fragment;
+	}
+
+	/**
+	 * Assigns a new {@link ArrayList} to the {@link #storyArrayListArray}, if it hasn't been
+	 * assigned one already. The array length will be equivalent to the number returned by the
+	 * {@link SectionFragmentPagerAdapter#getCount()}, passed in the arguments {@link Bundle}.
+	 */
+	private void initializeArrayListArray() {
+		if (storyArrayListArray == null) {
+			int numberOfSections = getArguments().getInt("viewPagerCount");
+			storyArrayListArray = new ArrayList[numberOfSections];
+		}
+	}
+
+	/**
+	 * Assigns a new {@link ArrayList} to the {@link #storyArrayListArray} element at the specified
+	 * position, if it hasn't been assigned one already.
+	 *
+	 * @param index an int indicating what element of the array should be null-checked
+	 */
+	private void initializeArrayListArrayElement(int index) {
+		if (storyArrayListArray[index] == null) {
+			storyArrayListArray[index] = new ArrayList<>();
+		}
 	}
 
 	/**
@@ -93,6 +107,7 @@ public class SectionFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_section, container, false);
 		int currentPosition = getArguments().getInt("position");
+		initializeArrayListArray();
 		initializeArrayListArrayElement(currentPosition);
 		initializeStoriesLoaderCallbacks(currentPosition, view);
 		return initializeSectionView(view, currentPosition);

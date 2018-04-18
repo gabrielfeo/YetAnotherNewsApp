@@ -50,16 +50,18 @@ class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 	}
 
 	/**
-	 * Returns a new {@link SectionFragment} instance passing the current position {@code int} as
-	 * an argument. Each fragment instance will display a different news section to the user. See
-	 * the {@code SectionFragment} implementation for details.
+	 * Returns a new {@link SectionFragment} instance passing the total number of sections
+	 * and the current position {@code int} as arguments. Each fragment instance will display a
+	 * different news section to the user. See the {@code SectionFragment} implementation for
+	 * details.
 	 *
 	 * @param position the current page position in the ViewPager
 	 * @return the {@code SectionFragment} instance to be displayed in the current page
-	 * @see SectionFragment#newInstance(int)
+	 * @see SectionFragment#newInstance(int, int)
 	 */
 	@Override
 	public Fragment getItem(int position) {
-		return SectionFragment.newInstance(position);
+		return SectionFragment.newInstance(getCount(),
+		                                   position);
 	}
 }
