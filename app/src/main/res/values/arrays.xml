@@ -4,43 +4,43 @@
 	<!-- These arrays' values contain an integer to be used as a loader ID and a section ID for
 	the API query (see SectionFragment.java) -->
 	<!--suppress CheckTagEmptyBody -->
-	<string-array name = "section_all">
+	<string-array name = "section_0">
 		<item>0</item>
 		<item></item>
 	</string-array>
-	<string-array name = "section_art">
+	<string-array name = "section_1">
 		<item>1</item>
 		<item>artanddesign</item>
 	</string-array>
-	<string-array name = "section_business">
+	<string-array name = "section_2">
 		<item>2</item>
 		<item>business</item>
 	</string-array>
-	<string-array name = "section_culture">
+	<string-array name = "section_3">
 		<item>3</item>
 		<item>culture</item>
 	</string-array>
-	<string-array name = "section_media">
+	<string-array name = "section_4">
 		<item>4</item>
 		<item>media</item>
 	</string-array>
-	<string-array name = "section_money">
+	<string-array name = "section_5">
 		<item>5</item>
 		<item>money</item>
 	</string-array>
-	<string-array name = "section_opinion">
+	<string-array name = "section_6">
 		<item>6</item>
 		<item>commentisfree</item>
 	</string-array>
-	<string-array name = "section_politics">
+	<string-array name = "section_7">
 		<item>7</item>
 		<item>politics</item>
 	</string-array>
-	<string-array name = "section_science">
+	<string-array name = "section_8">
 		<item>8</item>
 		<item>science</item>
 	</string-array>
-	<string-array name = "section_technology">
+	<string-array name = "section_9">
 		<item>9</item>
 		<item>technology</item>
 	</string-array>

@@ -1,19 +1,20 @@
 package com.gfeo.yetanothernewsapp;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 /**
- * A simple {@link FragmentPagerAdapter} implementation. Each fragment displays a news section,
- * for example, a {@link StoriesActivity.ArtSectionFragment}.
+ * A simple {@link FragmentPagerAdapter} implementation. Each fragment displays a news section to
+ * the user.
  *
  * @author gabrielfeo
  * @see StoriesActivity
+ * @see SectionFragment
  */
 class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 
+	/** An array of Strings containing the tab names */
 	private final String[] mTabNamesStringArray;
 
 	/**
@@ -49,48 +50,16 @@ class SectionFragmentPagerAdapter extends FragmentPagerAdapter {
 	}
 
 	/**
-	 * Returns the page fragment according to the {@code position} parameter. Each fragment
-	 * displays a news section to the user, e.g. {@link StoriesActivity.ScienceSectionFragment}.
+	 * Returns a new {@link SectionFragment} instance passing the current position {@code int} as
+	 * an argument. Each fragment instance will display a different news section to the user. See
+	 * the {@code SectionFragment} implementation for details.
 	 *
 	 * @param position the current page position in the ViewPager
-	 * @return the fragment to be displayed in the current page
-	 * @see StoriesActivity
+	 * @return the {@code SectionFragment} instance to be displayed in the current page
+	 * @see SectionFragment#newInstance(int)
 	 */
 	@Override
 	public Fragment getItem(int position) {
-		SectionFragment fragment = null;
-		switch (position) {
-			case 0:
-				fragment = new StoriesActivity.AllSectionFragment();
-				break;
-			case 1:
-				fragment = new StoriesActivity.ArtSectionFragment();
-				break;
-			case 2:
-				fragment = new StoriesActivity.BusinessSectionFragment();
-				break;
-			case 3:
-				fragment = new StoriesActivity.CultureSectionFragment();
-				break;
-			case 4:
-				fragment = new StoriesActivity.MediaSectionFragment();
-				break;
-			case 5:
-				fragment = new StoriesActivity.MoneySectionFragment();
-				break;
-			case 6:
-				fragment = new StoriesActivity.OpinionSectionFragment();
-				break;
-			case 7:
-				fragment = new StoriesActivity.PoliticsSectionFragment();
-				break;
-			case 8:
-				fragment = new StoriesActivity.ScienceSectionFragment();
-				break;
-			case 9:
-				fragment = new StoriesActivity.TechSectionFragment();
-				break;
-		}
-		return fragment;
+		return SectionFragment.newInstance(position);
 	}
 }

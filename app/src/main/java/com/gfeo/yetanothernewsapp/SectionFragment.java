@@ -22,23 +22,25 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * <p>Displays a single news section to the user. This class is extended by classes representing
- * specific sections, each containing its own static {@link ArrayList}, so that the loaded
- * stories list can persist across different Fragment instances (when the fragment is recreated
- * due to an orientation change, for example). This is the main reason for there being so many
- * {@code SectionFragment} subclasses (inner classes of {@link StoriesActivity}).</p>
- * <p>Each subclass will inherit {@link #mLoaderId} and {@link #mStoriesLoaderCallbacks} fields;
- * hence each will have its own {@link StoriesLoader}.
- * </p>
+ * <p>Displays a single news section to the user. <br></p>
  *
  * @author gabrielfeo
  */
 
 public class SectionFragment extends Fragment {
 
+	/**
+	 * An array of 10 {@code ArrayList<Story>} objects. This field is static so that
+	 * the loaded stories list of each section isn't lost when the fragments are reinstantiated.
+	 * Each element in the array is an {@code ArrayList} of Stories of an individual news section.
+	 *
+	 * @see #newInstance(int)
+	 * @see #initializeArrayListArrayElement(int)
+	 */
+	private static ArrayList<Story>[] storyArrayListArray = new ArrayList[10];
 	/** An int loader ID for a {@link StoriesLoader}. */
 	private int mLoaderId;
-	/** A {@link StoriesLoaderCallbacks} for a {@link StoriesLoader} */
+	/** A set of {@code StoriesLoaderCallbacks} for a {@link StoriesLoader} */
 	private StoriesLoaderCallbacks mStoriesLoaderCallbacks;
 	private StoryArrayAdapter mStoryArrayAdapter;
 
@@ -47,23 +49,53 @@ public class SectionFragment extends Fragment {
 	}
 
 	/**
-	 * Assigns a new {@link ArrayList} to a given field if it hasn't been assigned one already.
+	 * Assigns a new {@link ArrayList} to the {@link #storyArrayListArray} element at the specified
+	 * position, if it hasn't been assigned one already.
 	 *
-	 * @param arrayList an {@code ArrayList} to be null-checked
-	 * @return a not-null {@code ArrayList}
+	 * @param index an int indicating what element of the array should be null-checked
 	 */
-	protected static ArrayList initializeArrayListField(ArrayList arrayList) {
-		if (arrayList == null) {
-			arrayList = new ArrayList<>();
+	private static void initializeArrayListArrayElement(int index) {
+		if (storyArrayListArray[index] == null) {
+			storyArrayListArray[index] = new ArrayList<>();
 		}
-		return arrayList;
 	}
 
+	/**
+	 * Instantiates a {@code SectionFragment} with a {@link Bundle} indicating its current position
+	 * in the {@code ViewPager}. This position {@code int} will be used to determine what stories
+	 * list should be loaded and displayed, and also individual {@link StoriesLoaderCallbacks}
+	 * and {@link StoriesLoader} of the current fragment.
+	 *
+	 * @param position the position fo the current fragment instance in the {@code ViewPager}
+	 * @return a new {@code SectionFragment} instance with the {@code Bundle}
+	 */
+	static SectionFragment newInstance(int position) {
+		SectionFragment fragment = new SectionFragment();
+		Bundle arguments = new Bundle();
+		arguments.putInt("position", position);
+		fragment.setArguments(arguments);
+		return fragment;
+	}
+
+	/**
+	 * Gets the {@code ViewPager} position from the {@code arguments} {@link Bundle} and calls
+	 * methods to initialize for the current {@link SectionFragment} a Stories list (if
+	 * necessary), a set of {@link StoriesLoaderCallbacks}, and layout elements such as the
+	 * {@code ListView}.
+	 *
+	 * @see #initializeArrayListArrayElement(int)
+	 * @see #initializeStoriesLoaderCallbacks(int, View)
+	 * @see #initializeSectionView(View, int)
+	 */
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_section, container, false);
+		View view = inflater.inflate(R.layout.fragment_section, container, false);
+		int currentPosition = getArguments().getInt("position");
+		initializeArrayListArrayElement(currentPosition);
+		initializeStoriesLoaderCallbacks(currentPosition, view);
+		return initializeSectionView(view, currentPosition);
 	}
 
 	/**
@@ -86,9 +118,9 @@ public class SectionFragment extends Fragment {
 	}
 
 	/**
-	 * Sets an {@link android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener} to the
-	 * {@link SwipeRefreshLayout} of the parameter {@link View}. The callback will call the
-	 * {@link #refreshStoriesList()} method.
+	 * Sets a {@link android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener} to the
+	 * {@link SwipeRefreshLayout} of the parameter {@link View}. The callback will call
+	 * {@link #refreshStoriesList()}.
 	 *
 	 * @param view a {@code View} containing the {@code SwipeRefreshLayout}
 	 */
@@ -102,52 +134,57 @@ public class SectionFragment extends Fragment {
 				});
 	}
 
+	//TODO javadoc params and see getsectionstringarray
+	//TODO @see StoriesActivity.ArtSectionFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)
+
 	/**
-	 * <p>Called by each {@link SectionFragment} subclass' {@code onCreateView} method.
-	 * Configures basic layout and loader settings, setting up the {@link ListView} and
-	 * {@link SwipeRefreshLayout}, and refreshing the stories list if it is empty. Also,
-	 * initializes a {@link StoriesLoaderCallbacks}, passing to its constructor the loader ID and
-	 * section ID (see {@link QueryUtils#buildQueryUrl(String)}) contained in a String array whose
-	 * name corresponds to the {@code sectionName} parameter.</p>
+	 * <p>Called by the {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} method.
+	 * Configures layout elements, setting up the {@link SwipeRefreshLayout} and {@link ListView},
+	 * and then calling {@link #refreshStoriesList()} to populate it if it's empty.</p>
 	 *
-	 * @param sectionName    a String that corresponds to the name of a String array containing a
-	 *                       loader ID and a section ID
-	 * @param fragmentView   the inflated {@link View} of the caller
-	 * @param storyArrayList an {@link ArrayList} of {@link Story} objects for the {@code
-	 *                       ListView} and the {@code StoriesLoaderCallbacks}
+	 * @param fragmentView the inflated {@link View} of the caller
 	 * @return the {@code View} from the {@code fragmentView} parameter, after the layout
 	 * configurations
 	 * @see #setupListView(View, ArrayList)
 	 * @see #setOnRefreshAction(View)
-	 * @see #getSectionStringArray(String)
-	 * @see StoriesActivity.ArtSectionFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)
 	 */
-	protected View initializeSectionView(String sectionName,
-	                                     View fragmentView,
-	                                     ArrayList<Story> storyArrayList) {
-		setupListView(fragmentView, storyArrayList);
+	private View initializeSectionView(View fragmentView,
+	                                   int sectionPosition) {
+		setupListView(fragmentView, storyArrayListArray[sectionPosition]);
 		setOnRefreshAction(fragmentView);
-		String[] sectionStringArray = getSectionStringArray(sectionName);
-		mLoaderId = Integer.valueOf(sectionStringArray[0]);
-		String sectionId = sectionStringArray[1];
-		mStoriesLoaderCallbacks =
-				new StoriesLoaderCallbacks(sectionId, storyArrayList, fragmentView);
-		if (storyArrayList.isEmpty()) {
+		if (storyArrayListArray[sectionPosition].isEmpty()) {
 			refreshStoriesList();
 		}
 		return fragmentView;
 	}
 
 	/**
+	 * Creates a set {@code StoriesLoaderCallbacks} with the values of a String array named to
+	 * the position number of the current news section.
+	 *
+	 * @see #getSectionStringArray(int)
+	 * @see LoaderManager
+	 */
+	private void initializeStoriesLoaderCallbacks(int sectionPosition,
+	                                              View fragmentView) {
+		String[] sectionStringArray = getSectionStringArray(sectionPosition);
+		mLoaderId = Integer.valueOf(sectionStringArray[0]);
+		String sectionId = sectionStringArray[1];
+		mStoriesLoaderCallbacks =
+				new StoriesLoaderCallbacks(sectionId,
+				                           storyArrayListArray[sectionPosition],
+				                           fragmentView);
+	}
+
+	/**
 	 * Gets a String array resource with the name of {@code sectionName} parameter. This array
 	 * will contain a loader ID and a section ID for the {@link StoriesLoaderCallbacks}.
 	 *
-	 * @param sectionName the name of the String array resource
+	 * @param sectionPosition an int that is part of the string-array name, for example "section_3"
 	 * @return the String array resource
-	 * @see #initializeSectionView(String, View, ArrayList)
 	 */
-	private String[] getSectionStringArray(String sectionName) {
-		String sectionStringArrayName = "section_" + sectionName;
+	private String[] getSectionStringArray(int sectionPosition) {
+		String sectionStringArrayName = "section_" + sectionPosition;
 		int sectionStringArrayResId = getContext().getResources()
 		                                          .getIdentifier(sectionStringArrayName,
 		                                                         "array",
@@ -158,7 +195,8 @@ public class SectionFragment extends Fragment {
 	/**
 	 * Sets the layout's {@link ListView} {@code Adapter} and
 	 * {@link android.widget.AdapterView.OnItemClickListener}.
-	 * @param fragmentView the {@code View} containing the {@code ListView}
+	 *
+	 * @param fragmentView   the {@code View} containing the {@code ListView}
 	 * @param storyArrayList the {@link ArrayList} that will populate the {@code ListView}
 	 */
 	private void setupListView(View fragmentView, ArrayList<Story> storyArrayList) {
