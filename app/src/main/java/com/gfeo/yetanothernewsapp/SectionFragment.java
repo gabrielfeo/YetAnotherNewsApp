@@ -134,9 +134,6 @@ public class SectionFragment extends Fragment {
 				});
 	}
 
-	//TODO javadoc params and see getsectionstringarray
-	//TODO @see StoriesActivity.ArtSectionFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)
-
 	/**
 	 * <p>Called by the {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} method.
 	 * Configures layout elements, setting up the {@link SwipeRefreshLayout} and {@link ListView},
