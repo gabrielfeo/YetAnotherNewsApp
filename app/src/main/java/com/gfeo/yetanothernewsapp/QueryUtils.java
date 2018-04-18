@@ -133,7 +133,7 @@ class QueryUtils {
 			urlConnection.connect();
 
 			int httpResponseCode = urlConnection.getResponseCode();
-			if (httpResponseCode == 200) {
+			if (httpResponseCode == HttpURLConnection.HTTP_OK) {
 				inputStream = urlConnection.getInputStream();
 				jsonResponse = readFromStream(inputStream);
 			} else {
@@ -218,36 +218,20 @@ class QueryUtils {
 				JSONObject requestedFields = currentResult.getJSONObject("fields");
 
 				//Get the story headline
-				storyHeadline = requestedFields.getString("headline");
+				storyHeadline = requestedFields.optString("headline");
 
 				//Try getting the story date and time
-				try {
-					storyDateTime = currentResult.getString("webPublicationDate");
-					storyDateTime = parseUtcDate(storyDateTime);
-				} catch (JSONException e) {
-					checkForPermittedJsonException(e);
-				}
+				storyDateTime = currentResult.optString("webPublicationDate");
+				storyDateTime = parseUtcDate(storyDateTime);
 
 				//Get the story author name (if available)
-				try {
-					storyAuthor = requestedFields.getString("byline");
-				} catch (JSONException e) {
-					checkForPermittedJsonException(e);
-				}
+				storyAuthor = requestedFields.optString("byline");
 
 				//Get the section name
-				try {
-					storySection = currentResult.getString("sectionName");
-				} catch (JSONException e) {
-					checkForPermittedJsonException(e);
-				}
+				storySection = currentResult.optString("sectionName");
 
 				//Get the link to the story
-				try {
-					storyLink = currentResult.getString("webUrl");
-				} catch (JSONException e) {
-					checkForPermittedJsonException(e);
-				}
+				storyLink = currentResult.optString("webUrl");
 
 				//Add current Story object
 				storyArrayList.add(new Story(storyHeadline,
@@ -263,22 +247,6 @@ class QueryUtils {
 		}
 
 		return storyArrayList;
-	}
-
-	/**
-	 * Used in the first line in a catch block to check the exception argument message for a
-	 * certain keyphrase. If the exception corresponds to the permitted "No value for [{@code
-	 * key}]" {@link JSONException}, the exception will be disregarded and the caller method can
-	 * resume execution. Otherwise, another exception will be thrown.
-	 *
-	 * @param e the {@code JSONException} to be checked
-	 * @throws JSONException if the {@code JSONException} argument isn't of the allowed type
-	 */
-	private static void checkForPermittedJsonException(JSONException e) throws JSONException {
-		String permittedExceptionKeyphrase = "No value for";
-		if (!e.getMessage().contains(permittedExceptionKeyphrase)) {
-			throw new JSONException(e.getMessage());
-		}
 	}
 
 }
