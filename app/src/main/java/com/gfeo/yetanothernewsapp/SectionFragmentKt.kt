@@ -14,7 +14,9 @@ import android.view.ViewGroup
 import android.widget.ListView
 import io.reactivex.Observable
 import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import java.net.URL
 import kotlin.properties.Delegates
 
@@ -71,13 +73,13 @@ class SectionFragmentKt : Fragment() {
     private fun setupSectionView(fragmentView: View?): View? {
         setupListView(fragmentView)
         setOnRefreshAction(fragmentView)
-        if (storyArrayListArray[sectionPosition].isEmpty()) TODO("loadStories(fragmentView)")
+        if (storyArrayListArray[sectionPosition].isEmpty()) loadStories(fragmentView)
         return fragmentView
     }
 
     private fun setOnRefreshAction(layoutView: View?) {
         layoutView?.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
-                ?.setOnRefreshListener { TODO("loadStories(layoutView)") }
+                ?.setOnRefreshListener { loadStories(layoutView) }
     }
 
     private fun getSectionStringArray() {
@@ -111,47 +113,53 @@ class SectionFragmentKt : Fragment() {
         return (activeNetwork != null && activeNetwork.isConnectedOrConnecting)
     }
 
-    private fun showProgressBar(view: View) {
+    private fun showProgressBar(view: View?) {
         val swipeRefreshLayout =
-                view.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
-        if (swipeRefreshLayout.isRefreshing) return
-        view.findViewById<View>(R.id.fragment_textview_no_connection).visibility = View.GONE
-        view.findViewById<View>(R.id.fragment_swiperefreshlayout).visibility = View.GONE
-        view.findViewById<View>(R.id.fragment_progressbar).visibility = View.VISIBLE
+                view?.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
+        if (swipeRefreshLayout?.isRefreshing == true) return
+        view?.findViewById<View>(R.id.fragment_textview_no_connection)?.visibility = View.GONE
+        view?.findViewById<View>(R.id.fragment_swiperefreshlayout)?.visibility = View.GONE
+        view?.findViewById<View>(R.id.fragment_progressbar)?.visibility = View.VISIBLE
     }
 
-    private fun showStoriesList(view: View) {
+    private fun showStoriesList(view: View?) {
         val swipeRefreshLayout =
-                view.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
-        if (swipeRefreshLayout.isRefreshing) swipeRefreshLayout.isRefreshing = false
-        view.findViewById<View>(R.id.fragment_textview_no_connection).visibility = View.GONE
-        view.findViewById<View>(R.id.fragment_progressbar).visibility = View.GONE
-        view.findViewById<View>(R.id.fragment_swiperefreshlayout).visibility = View.VISIBLE
+                view?.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
+        if (swipeRefreshLayout?.isRefreshing == true) swipeRefreshLayout.isRefreshing = false
+        view?.findViewById<View>(R.id.fragment_textview_no_connection)?.visibility = View.GONE
+        view?.findViewById<View>(R.id.fragment_progressbar)?.visibility = View.GONE
+        view?.findViewById<View>(R.id.fragment_swiperefreshlayout)?.visibility = View.VISIBLE
     }
 
-    private fun showNoConnectionView(view: View) {
+    private fun showNoConnectionView(view: View?) {
         val swipeRefreshLayout =
-                view.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
-        if (swipeRefreshLayout.isRefreshing) swipeRefreshLayout.isRefreshing = false
-        view.findViewById<View>(R.id.fragment_swiperefreshlayout).visibility = View.GONE
-        view.findViewById<View>(R.id.fragment_progressbar).visibility = View.GONE
-        view.findViewById<View>(R.id.fragment_textview_no_connection).visibility = View.VISIBLE
+                view?.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
+        if (swipeRefreshLayout?.isRefreshing==true) swipeRefreshLayout.isRefreshing = false
+        view?.findViewById<View>(R.id.fragment_swiperefreshlayout)?.visibility = View.GONE
+        view?.findViewById<View>(R.id.fragment_progressbar)?.visibility = View.GONE
+        view?.findViewById<View>(R.id.fragment_textview_no_connection)?.visibility = View.VISIBLE
     }
 
-    private fun loadStories(storiesView: View) {
+    private fun loadStories(storiesView: View?) {
         val storyArrayListObservable: Observable<ArrayList<Story>> = Observable.fromCallable {
             val queryUrl: URL = QueryUtils.buildQueryUrl(sectionId)
             val jsonResponse: String = QueryUtils.makeHttpRequest(queryUrl)
             QueryUtils.parseJsonToArrayList(jsonResponse, storyArrayListArray[sectionPosition])
         }
+        storyArrayListObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(initializeStoriesObserver(storiesView))
     }
 
-    private fun initializeStoriesObserver(storiesView: View): Observer<ArrayList<Story>> {
+    private fun initializeStoriesObserver(storiesView: View?): Observer<ArrayList<Story>> {
         return object : Observer<ArrayList<Story>> {
             override fun onSubscribe(d: Disposable) {
                 if (existsActiveNetworkConnection()) {
                     showProgressBar(storiesView)
                     rxDisposable = d
+                }else{
+                    showNoConnectionView(storiesView)
+                    d.dispose()
                 }
             }
 
