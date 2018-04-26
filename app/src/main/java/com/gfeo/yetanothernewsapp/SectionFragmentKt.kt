@@ -41,7 +41,7 @@ class SectionFragmentKt : Fragment() {
         initializeArrayListArray()
         initializeArrayListArrayElement()
         getSectionStringArray()
-        return TODO("setupSectionView(view)")
+        return setupSectionView(view)
     }
 
     private fun initializeArrayListArray() {
@@ -60,13 +60,20 @@ class SectionFragmentKt : Fragment() {
         }
     }
 
-    private fun setOnRefreshAction(layoutView: View) {
-        layoutView.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
-                .setOnRefreshListener { TODO("loadStories(layoutView)") }
+    private fun setupSectionView(fragmentView: View?): View? {
+        setupListView(fragmentView)
+        setOnRefreshAction(fragmentView)
+        if (storyArrayListArray[sectionPosition].isEmpty()) TODO("loadStories(fragmentView)")
+        return fragmentView
+    }
+
+    private fun setOnRefreshAction(layoutView: View?) {
+        layoutView?.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
+                ?.setOnRefreshListener { TODO("loadStories(layoutView)") }
     }
 
     private fun getSectionStringArray() {
-        val sectionStringArrayName = "section_${sectionPosition}"
+        val sectionStringArrayName = "section_$sectionPosition"
         val sectionStringArrayResId: Int = context.resources.getIdentifier(sectionStringArrayName,
                 "array",
                 context.packageName)
@@ -75,11 +82,11 @@ class SectionFragmentKt : Fragment() {
         sectionId = sectionStringArray[1]
     }
 
-    private fun setupListView(fragmentView: View) {
+    private fun setupListView(fragmentView: View?) {
         storyArrayAdapter = StoryArrayAdapter(activity, storyArrayListArray[sectionPosition])
-        val listView: ListView = fragmentView.findViewById(R.id.fragment_listview)
-        listView.adapter = storyArrayAdapter
-        listView.setOnItemClickListener { _, _, position, _ ->
+        val listView: ListView? = fragmentView?.findViewById(R.id.fragment_listview)
+        listView?.adapter = storyArrayAdapter
+        listView?.setOnItemClickListener { _, _, position, _ ->
             val currentStory: Story = storyArrayAdapter.getItem(position)
             val intent = Intent(Intent.ACTION_VIEW, currentStory.link)
             if (intent.resolveActivity(activity.packageManager) != null) {
