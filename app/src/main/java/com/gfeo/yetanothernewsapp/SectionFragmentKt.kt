@@ -33,16 +33,6 @@ class SectionFragmentKt : Fragment() {
         //TODO Does this work as a static field?
         private lateinit var storyArrayListArray: Array<ArrayList<Story>>
 
-        private fun initializeArrayListArray(arguments: Bundle) {
-            try {
-                storyArrayListArray.size
-            } catch (e: UninitializedPropertyAccessException) {
-                val numberOfSections = arguments.getInt("viewPagerCount")
-                storyArrayListArray =
-                        Array<ArrayList<Story>>(numberOfSections, { _ -> ArrayList() })
-            }
-        }
-
         @JvmStatic
         fun newInstance(viewPagerCount: Int, position: Int): SectionFragmentKt {
             val fragment = SectionFragmentKt()
@@ -57,21 +47,19 @@ class SectionFragmentKt : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View? = inflater?.inflate(R.layout.fragment_section, container, false)
         sectionPosition = arguments.getInt("position")
-        initializeArrayListArray(arguments)
+        initializeArrayListArray()
         getSectionStringArray()
         return setupSectionView(view)
     }
 
-    private fun setupSectionView(fragmentView: View?): View? {
-        setupListView(fragmentView)
-        setOnRefreshAction(fragmentView)
-        if (storyArrayListArray[sectionPosition].isEmpty()) loadStories(fragmentView)
-        return fragmentView
-    }
-
-    private fun setOnRefreshAction(layoutView: View?) {
-        layoutView?.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
-                ?.setOnRefreshListener { loadStories(layoutView) }
+    private fun initializeArrayListArray() {
+        try {
+            storyArrayListArray.size
+        } catch (e: UninitializedPropertyAccessException) {
+            val numberOfSections = arguments.getInt("viewPagerCount")
+            storyArrayListArray =
+                    Array<ArrayList<Story>>(numberOfSections, { _ -> ArrayList() })
+        }
     }
 
     private fun getSectionStringArray() {
@@ -84,6 +72,13 @@ class SectionFragmentKt : Fragment() {
         sectionId = sectionStringArray[1]
     }
 
+    private fun setupSectionView(fragmentView: View?): View? {
+        setupListView(fragmentView)
+        setOnRefreshAction(fragmentView)
+        if (storyArrayListArray[sectionPosition].isEmpty()) loadStories(fragmentView)
+        return fragmentView
+    }
+
     private fun setupListView(fragmentView: View?) {
         storyArrayAdapter = StoryArrayAdapter(activity, storyArrayListArray[sectionPosition])
         val listView: ListView? = fragmentView?.findViewById(R.id.fragment_listview)
@@ -93,6 +88,47 @@ class SectionFragmentKt : Fragment() {
             val intent = Intent(Intent.ACTION_VIEW, currentStory.link)
             if (intent.resolveActivity(activity.packageManager) != null) {
                 startActivity(intent)
+            }
+        }
+    }
+
+    private fun setOnRefreshAction(layoutView: View?) {
+        layoutView?.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
+                ?.setOnRefreshListener { loadStories(layoutView) }
+    }
+
+    private fun loadStories(storiesView: View?) {
+        val storyArrayListObservable: Observable<ArrayList<Story>> = Observable.fromCallable {
+            val queryUrl: URL = QueryUtils.buildQueryUrl(sectionId)
+            val jsonResponse: String = QueryUtils.makeHttpRequest(queryUrl)
+            QueryUtils.parseJsonToArrayList(jsonResponse, storyArrayListArray[sectionPosition])
+        }
+        storyArrayListObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(initializeStoriesObserver(storiesView))
+    }
+
+    private fun initializeStoriesObserver(storiesView: View?): Observer<ArrayList<Story>> {
+        return object : Observer<ArrayList<Story>> {
+            override fun onSubscribe(d: Disposable) {
+                if (existsActiveNetworkConnection()) {
+                    showProgressBar(storiesView)
+                    rxDisposable = d
+                } else {
+                    showNoConnectionView(storiesView)
+                    d.dispose()
+                }
+            }
+
+            override fun onNext(t: ArrayList<Story>) {}
+
+            override fun onError(e: Throwable) {
+                Log.e("SectionFragment", "Error on storyArrayListObservable", e)
+            }
+
+            override fun onComplete() {
+                showStoriesList(storiesView)
+                storyArrayAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -130,42 +166,6 @@ class SectionFragmentKt : Fragment() {
         view?.findViewById<View>(R.id.fragment_swiperefreshlayout)?.visibility = View.GONE
         view?.findViewById<View>(R.id.fragment_progressbar)?.visibility = View.GONE
         view?.findViewById<View>(R.id.fragment_textview_no_connection)?.visibility = View.VISIBLE
-    }
-
-    private fun loadStories(storiesView: View?) {
-        val storyArrayListObservable: Observable<ArrayList<Story>> = Observable.fromCallable {
-            val queryUrl: URL = QueryUtils.buildQueryUrl(sectionId)
-            val jsonResponse: String = QueryUtils.makeHttpRequest(queryUrl)
-            QueryUtils.parseJsonToArrayList(jsonResponse, storyArrayListArray[sectionPosition])
-        }
-        storyArrayListObservable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(initializeStoriesObserver(storiesView))
-    }
-
-    private fun initializeStoriesObserver(storiesView: View?): Observer<ArrayList<Story>> {
-        return object : Observer<ArrayList<Story>> {
-            override fun onSubscribe(d: Disposable) {
-                if (existsActiveNetworkConnection()) {
-                    showProgressBar(storiesView)
-                    rxDisposable = d
-                } else {
-                    showNoConnectionView(storiesView)
-                    d.dispose()
-                }
-            }
-
-            override fun onNext(t: ArrayList<Story>) {}
-
-            override fun onError(e: Throwable) {
-                Log.e("SectionFragment", "Error on storyArrayListObservable", e)
-            }
-
-            override fun onComplete() {
-                showStoriesList(storiesView)
-                storyArrayAdapter.notifyDataSetChanged()
-            }
-        }
     }
 
 }
