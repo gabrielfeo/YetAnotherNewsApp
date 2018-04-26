@@ -5,11 +5,17 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.reactivex.disposables.Disposable
 import kotlin.properties.Delegates
+
 
 class SectionFragmentKt : Fragment() {
 
-    private var sectionPosition: Int by Delegates.notNull<Int>()
+    private var sectionPosition: Int by Delegates.notNull()
+    private lateinit var storyArrayListArray: ArrayList<Story>
+    private lateinit var sectionId: String
+    private lateinit var storyArrayAdapter: StoryArrayAdapter
+    private lateinit var rxDisposable: Disposable
 
     companion object {
         @JvmStatic
