@@ -24,15 +24,24 @@ import kotlin.properties.Delegates
 class SectionFragmentKt : Fragment() {
 
     //TODO LOG_TAG constant
-    private var sectionPosition: Int by Delegates.notNull()
+    var sectionPosition: Int by Delegates.notNull()
     private lateinit var sectionId: String
     private lateinit var storyArrayAdapter: StoryArrayAdapter
     private lateinit var rxDisposable: Disposable
 
     companion object {
         //TODO Does this work as a static field?
-        @JvmStatic
         private lateinit var storyArrayListArray: Array<ArrayList<Story>>
+
+        private fun initializeArrayListArray(arguments: Bundle) {
+            try {
+                storyArrayListArray.size
+            } catch (e: UninitializedPropertyAccessException) {
+                val numberOfSections = arguments.getInt("viewPagerCount")
+                storyArrayListArray =
+                        Array<ArrayList<Story>>(numberOfSections, { _ -> ArrayList() })
+            }
+        }
 
         @JvmStatic
         fun newInstance(viewPagerCount: Int, position: Int): SectionFragmentKt {
@@ -48,26 +57,9 @@ class SectionFragmentKt : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View? = inflater?.inflate(R.layout.fragment_section, container, false)
         sectionPosition = arguments.getInt("position")
-        initializeArrayListArray()
-        initializeArrayListArrayElement()
+        initializeArrayListArray(arguments)
         getSectionStringArray()
         return setupSectionView(view)
-    }
-
-    private fun initializeArrayListArray() {
-        //TODO Why is this always false?
-        if (storyArrayListArray == null) {
-            val numberOfSections = arguments.getInt("viewPagerCount")
-            storyArrayListArray =
-                    Array<ArrayList<Story>>(numberOfSections, { _ -> ArrayList() })
-        }
-    }
-
-    private fun initializeArrayListArrayElement() {
-        //TODO Why is this always false?
-        if (storyArrayListArray[sectionPosition] == null) {
-            storyArrayListArray[sectionPosition] = ArrayList()
-        }
     }
 
     private fun setupSectionView(fragmentView: View?): View? {
@@ -134,7 +126,7 @@ class SectionFragmentKt : Fragment() {
     private fun showNoConnectionView(view: View?) {
         val swipeRefreshLayout =
                 view?.findViewById<SwipeRefreshLayout>(R.id.fragment_swiperefreshlayout)
-        if (swipeRefreshLayout?.isRefreshing==true) swipeRefreshLayout.isRefreshing = false
+        if (swipeRefreshLayout?.isRefreshing == true) swipeRefreshLayout.isRefreshing = false
         view?.findViewById<View>(R.id.fragment_swiperefreshlayout)?.visibility = View.GONE
         view?.findViewById<View>(R.id.fragment_progressbar)?.visibility = View.GONE
         view?.findViewById<View>(R.id.fragment_textview_no_connection)?.visibility = View.VISIBLE
@@ -157,7 +149,7 @@ class SectionFragmentKt : Fragment() {
                 if (existsActiveNetworkConnection()) {
                     showProgressBar(storiesView)
                     rxDisposable = d
-                }else{
+                } else {
                     showNoConnectionView(storiesView)
                     d.dispose()
                 }
