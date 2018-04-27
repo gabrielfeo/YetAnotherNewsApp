@@ -21,7 +21,7 @@ import java.net.URL
 import kotlin.properties.Delegates
 
 
-class SectionFragmentKt : Fragment() {
+class SectionFragment : Fragment() {
 
     //TODO LOG_TAG constant
     var sectionPosition: Int by Delegates.notNull()
@@ -34,8 +34,8 @@ class SectionFragmentKt : Fragment() {
         private lateinit var storyArrayListArray: Array<ArrayList<Story>>
 
         @JvmStatic
-        fun newInstance(viewPagerCount: Int, position: Int): SectionFragmentKt {
-            val fragment = SectionFragmentKt()
+        fun newInstance(viewPagerCount: Int, position: Int): SectionFragment {
+            val fragment = SectionFragment()
             val arguments = Bundle()
             arguments.putInt("viewPagerCount", viewPagerCount)
             arguments.putInt("position", position)
