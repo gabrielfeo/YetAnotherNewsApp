@@ -6,11 +6,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import java.util.ArrayList;
 
 /**
  * Displays a {@link ViewPager} of {@link SectionFragment} objects to the user. Each fragment
@@ -42,7 +37,7 @@ public class StoriesActivity extends AppCompatActivity {
 		ViewPager viewPager = findViewById(R.id.stories_viewpager);
 		TabLayout tabLayout = (findViewById(R.id.stories_tablayout));
 		String[] tabNamesStringArray = getResources().getStringArray(R.array.tab_names);
-		viewPager.setAdapter(new SectionFragmentPagerAdapter(getSupportFragmentManager(),
+		viewPager.setAdapter(new SectionFragmentPagerAdapterKt(getSupportFragmentManager(),
 		                                                     tabNamesStringArray));
 		tabLayout.setupWithViewPager(viewPager);
 	}
