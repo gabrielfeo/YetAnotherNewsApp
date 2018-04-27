@@ -18,7 +18,7 @@ class StoriesActivity : AppCompatActivity() {
         val viewPager = findViewById<ViewPager>(R.id.stories_viewpager)
         val tabLayout = findViewById<TabLayout>(R.id.stories_tablayout)
         val tabNamesStringArray: Array<String> = resources.getStringArray(R.array.tab_names)
-        viewPager.adapter = SectionFragmentPagerAdapterKt(supportFragmentManager,
+        viewPager.adapter = SectionFragmentPagerAdapter(supportFragmentManager,
                 tabNamesStringArray)
         tabLayout.setupWithViewPager(viewPager)
     }

@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter
 /**
  * Created by gabrielfeo on 2018/04/27.
  */
-class SectionFragmentPagerAdapterKt(private val fragmentManager: FragmentManager,
-                                    private val tabNamesStringArray: Array<String>)
+class SectionFragmentPagerAdapter(private val fragmentManager: FragmentManager,
+                                  private val tabNamesStringArray: Array<String>)
     : FragmentPagerAdapter(fragmentManager) {
 
     override fun getItem(position: Int): Fragment {
