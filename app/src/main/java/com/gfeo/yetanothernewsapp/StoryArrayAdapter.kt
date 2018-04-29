@@ -26,7 +26,7 @@ class StoryArrayAdapter(private val mContext: Context,
             viewHolder.textViewAuthor = view.findViewById(R.id.listitem_stories_author)
             view.tag = viewHolder
         } else {
-            viewHolder = view!!.tag as ViewHolder
+            viewHolder = view.tag as ViewHolder
         }
 
         val currentStory: Story = getItem(position)
