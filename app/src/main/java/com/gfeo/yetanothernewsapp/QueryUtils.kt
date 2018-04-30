@@ -17,11 +17,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.net.ssl.HttpsURLConnection
 
-class QueryUtilsKt private constructor() {
+class QueryUtils private constructor() {
 
     companion object {
 
-        private val LOG_TAG: String = QueryUtilsKt::class.simpleName!!
+        private val LOG_TAG: String = QueryUtils::class.simpleName!!
         private const val PAGE_SIZE_VALUE = "20"
 
         @JvmStatic
@@ -126,8 +126,8 @@ class QueryUtilsKt private constructor() {
                 val jsonResponse = JSONObject(jsonResponseString).getJSONObject("response")
                 val resultsJsonArray = jsonResponse.getJSONArray("results")
 
-                val currentIteration = 0
-                do {
+                var currentIteration = 0
+                while (currentIteration < Integer.valueOf(PAGE_SIZE_VALUE)){
                     val currentResult: JSONObject = resultsJsonArray.getJSONObject(currentIteration)
                     val requestedFields: JSONObject = currentResult.getJSONObject("fields")
 
@@ -153,8 +153,8 @@ class QueryUtilsKt private constructor() {
                             storyAuthor,
                             storySection,
                             storyLink))
-
-                } while (currentIteration < Integer.valueOf(PAGE_SIZE_VALUE))
+                    currentIteration++
+                }
             } catch (exception: JSONException) {
                 Log.e(LOG_TAG, exception.message)
             }

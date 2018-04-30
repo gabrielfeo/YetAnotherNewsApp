@@ -99,7 +99,7 @@ class SectionFragment : Fragment() {
 
     private fun loadStories(storiesView: View?) {
         val storyArrayListObservable: Observable<ArrayList<Story>> = Observable.fromCallable {
-            val queryUrl: URL = QueryUtils.buildQueryUrl(sectionId)
+            val queryUrl: URL? = QueryUtils.buildQueryUrl(sectionId)
             val jsonResponse: String = QueryUtils.makeHttpRequest(queryUrl)
             QueryUtils.parseJsonToArrayList(jsonResponse, storyArrayListArray[sectionPosition])
         }
