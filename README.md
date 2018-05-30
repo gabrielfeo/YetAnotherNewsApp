@@ -3,10 +3,8 @@ A simple Android news client for The Guardian, using the Guardian's [Open Platfo
 Project #8 for the Udacity Android Basics nanodegree.
 
 ### Screenshots
-![All section]
-![Art section]
-![Technology section]
-
-[All section]: 
-[Art section]: 
-[Technology section]: 
+<p>
+<img src="/screenshots/all_section.jpg" height="400" width="240"/>
+<img src="/screenshots/art_section.jpg" height="400" width="240"/>
+<img src="/screenshots/technology_section.jpg" height="400" width="240"/>
+</p>
