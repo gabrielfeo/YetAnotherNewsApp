@@ -34,11 +34,10 @@ class StoryArrayAdapter(private val mContext: Context,
         //Set the current story headline
         viewHolder.textViewHeadline.text = currentStory.headline
         //Set the current story section
-        val sectionText = "in ${currentStory.section}"
+        val sectionText = " in ${currentStory.section}"
         viewHolder.textViewSection.text = sectionText
         //Set the current story date and time
-        viewHolder.textViewDateTime.text =
-                if (!sectionText.isEmpty()) currentStory.dateTime else ", ${currentStory.dateTime}"
+        viewHolder.textViewDateTime.text = currentStory.dateTime
         //Set the current story author, if available
         viewHolder.textViewAuthor.text = when (currentStory.author) {
             "" -> "No author name available"

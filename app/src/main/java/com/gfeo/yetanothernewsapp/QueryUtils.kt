@@ -136,7 +136,7 @@ class QueryUtils private constructor() {
 
                     //Try getting the story date and time
                     storyDateTime = currentResult.optString("webPublicationDate")
-                    //storyDateTime = parseUtcDate(storyDateTime)
+                    storyDateTime = parseUtcDate(storyDateTime)
 
                     //Get the story author name (if available)
                     storyAuthor = requestedFields.optString("byline")
