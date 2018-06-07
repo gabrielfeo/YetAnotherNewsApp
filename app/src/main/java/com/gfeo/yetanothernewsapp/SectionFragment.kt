@@ -1,17 +1,17 @@
 package com.gfeo.yetanothernewsapp
 
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -73,22 +73,18 @@ class SectionFragment : Fragment() {
     }
 
     private fun setupSectionView(fragmentView: View?): View? {
-        setupListView(fragmentView)
+        setupRecyclerView(fragmentView)
         setOnRefreshAction(fragmentView)
         if (storyArrayListArray[sectionPosition].isEmpty()) loadStories(fragmentView)
         return fragmentView
     }
 
-    private fun setupListView(fragmentView: View?) {
-        storyArrayAdapter = StoryArrayAdapter(activity, storyArrayListArray[sectionPosition])
-        val listView: ListView? = fragmentView?.findViewById(R.id.fragment_listview)
-        listView?.adapter = storyArrayAdapter
-        listView?.setOnItemClickListener { _, _, position, _ ->
-            val currentStory: Story = storyArrayAdapter.getItem(position)
-            val intent = Intent(Intent.ACTION_VIEW, currentStory.link)
-            if (intent.resolveActivity(activity.packageManager) != null) {
-                startActivity(intent)
-            }
+    private fun setupRecyclerView(fragmentView: View?) {
+        storyArrayAdapter = StoryArrayAdapter(storyArrayListArray[sectionPosition])
+        fragmentView?.findViewById<RecyclerView>(R.id.fragment_recyclerview)?.apply {
+            layoutManager = LinearLayoutManager(this@SectionFragment.context)
+            adapter = storyArrayAdapter
+            setHasFixedSize(true)
         }
     }
 

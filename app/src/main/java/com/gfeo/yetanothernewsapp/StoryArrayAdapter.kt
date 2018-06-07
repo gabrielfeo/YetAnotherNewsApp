@@ -1,5 +1,6 @@
 package com.gfeo.yetanothernewsapp
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,7 @@ class StoryArrayAdapter(private val storyArrayList: ArrayList<Story>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val currentStory: Story = storyArrayList.get(position)
+        val currentStory: Story = storyArrayList[position]
         holder?.textViewHeadline?.text = currentStory.headline
         holder?.textViewSection?.text = " in ${currentStory.section}"
         holder?.textViewDateTime?.text = currentStory.dateTime
@@ -28,6 +29,16 @@ class StoryArrayAdapter(private val storyArrayList: ArrayList<Story>)
             "" -> "No author name available"
             "Letters" -> "Letter"
             else -> "by ${currentStory.author}"
+        }
+        setOnItemClickListener(holder?.itemView, currentStory)
+    }
+
+    private fun setOnItemClickListener(itemView: View?, story: Story) {
+        itemView?.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, story.link)
+            if (intent.resolveActivity(it.context.packageManager) != null) {
+                it.context.startActivity(intent)
+            }
         }
     }
 
