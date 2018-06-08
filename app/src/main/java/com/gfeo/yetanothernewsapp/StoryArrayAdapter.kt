@@ -44,13 +44,13 @@ class StoryArrayAdapter(private val storyArrayList: ArrayList<Story>)
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textViewHeadline: TextView =
-                itemView.findViewById(R.id.listitem_stories_headline) as TextView
+                itemView.findViewById(R.id.listitem_stories_headline)
         var textViewDateTime: TextView =
-                itemView.findViewById(R.id.listitem_stories_datetime) as TextView
+                itemView.findViewById(R.id.listitem_stories_datetime)
         var textViewSection: TextView =
-                itemView.findViewById(R.id.listitem_stories_section) as TextView
+                itemView.findViewById(R.id.listitem_stories_section)
         var textViewAuthor: TextView =
-                itemView.findViewById(R.id.listitem_stories_author) as TextView
+                itemView.findViewById(R.id.listitem_stories_author)
     }
 
 }
