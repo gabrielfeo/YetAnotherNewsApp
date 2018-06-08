@@ -6,7 +6,7 @@
 	android:layout_height = "@dimen/stories_listitem_height"
 	android:layout_marginEnd = "@dimen/global_activity_margin"
 	android:layout_marginStart = "@dimen/global_activity_margin"
-	android:layout_marginTop = "@dimen/stories_listitem_cardview_spacing"
+	android:layout_marginBottom = "@dimen/stories_listitem_cardview_spacing"
 	android:foreground = "?android:attr/selectableItemBackground"
 	app:cardCornerRadius = "@dimen/stories_listitem_cardview_corner_radius">
 
