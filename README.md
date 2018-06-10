@@ -4,7 +4,7 @@ Project #8 for the Udacity Android Basics nanodegree.
 
 ### Screenshots
 <p>
-<img src="/screenshots/all_section.jpg" height="400" width="240"/>
-<img src="/screenshots/art_section.jpg" height="400" width="240"/>
-<img src="/screenshots/technology_section.jpg" height="400" width="240"/>
+<img src="/screenshots/all_section.png" height="400" width="240"/>
+<img src="/screenshots/art_section.png" height="400" width="240"/>
+<img src="/screenshots/technology_section.png" height="400" width="240"/>
 </p>
