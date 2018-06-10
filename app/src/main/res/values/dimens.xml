@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+	<dimen name = "global_activity_margin">16dp</dimen>
 	<dimen name = "toolbar_elevation">4dp</dimen>
 	<dimen name = "stories_listitem_height">128dp</dimen>
+	<dimen name = "stories_listitem_cardview_spacing">8dp</dimen>
+	<dimen name = "stories_listitem_cardview_corner_radius">4dp</dimen>
 	<dimen name = "stories_listitem_margin_vertical">16dp</dimen>
 	<dimen name = "stories_listitem_margin_horizontal">24dp</dimen>
 	<dimen name = "stories_listitem_headline_margin_bottom">1dp</dimen>

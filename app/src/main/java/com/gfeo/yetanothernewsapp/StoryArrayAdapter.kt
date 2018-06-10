@@ -1,57 +1,56 @@
 package com.gfeo.yetanothernewsapp
 
-import android.content.Context
+import android.content.Intent
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
 
-class StoryArrayAdapter(private val mContext: Context,
-                        private val storyArrayList: ArrayList<Story>)
-    : ArrayAdapter<Story>(mContext, 0, storyArrayList) {
+class StoryArrayAdapter(private val storyArrayList: ArrayList<Story>)
+    : RecyclerView.Adapter<StoryArrayAdapter.ViewHolder>() {
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var view = convertView;
-        val viewHolder: ViewHolder
-        if (view == null) {
-            val layoutInflater: LayoutInflater = LayoutInflater.from(context)
-            val container: View = layoutInflater.inflate(R.layout.container, parent, false)
-            view = layoutInflater.inflate(R.layout.listitem_stories,
-                    container.findViewById(R.id.container), false)
-            viewHolder = ViewHolder()
-            viewHolder.textViewHeadline = view.findViewById(R.id.listitem_stories_headline)
-            viewHolder.textViewDateTime = view.findViewById(R.id.listitem_stories_datetime)
-            viewHolder.textViewSection = view.findViewById(R.id.listitem_stories_section)
-            viewHolder.textViewAuthor = view.findViewById(R.id.listitem_stories_author)
-            view.tag = viewHolder
-        } else {
-            viewHolder = view.tag as ViewHolder
-        }
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
+        val itemView = LayoutInflater.from(parent?.context)
+                .inflate(R.layout.listitem_stories, parent, false)
+        return ViewHolder(itemView)
+    }
 
-        val currentStory: Story = getItem(position)
+    override fun getItemCount(): Int {
+        return storyArrayList.size
+    }
 
-        //Set the current story headline
-        viewHolder.textViewHeadline.text = currentStory.headline
-        //Set the current story section
-        val sectionText = " in ${currentStory.section}"
-        viewHolder.textViewSection.text = sectionText
-        //Set the current story date and time
-        viewHolder.textViewDateTime.text = currentStory.dateTime
-        //Set the current story author, if available
-        viewHolder.textViewAuthor.text = when (currentStory.author) {
+    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+        val currentStory: Story = storyArrayList[position]
+        holder?.textViewHeadline?.text = currentStory.headline
+        holder?.textViewSection?.text = " in ${currentStory.section}"
+        holder?.textViewDateTime?.text = currentStory.dateTime
+        holder?.textViewAuthor?.text = when (currentStory.author) {
             "" -> "No author name available"
             "Letters" -> "Letter"
             else -> "by ${currentStory.author}"
         }
-        return view!!
+        setOnItemClickListener(holder?.itemView, currentStory)
     }
 
-    private class ViewHolder {
-        internal lateinit var textViewHeadline: TextView
-        internal lateinit var textViewDateTime: TextView
-        internal lateinit var textViewSection: TextView
-        internal lateinit var textViewAuthor: TextView
+    private fun setOnItemClickListener(itemView: View?, story: Story) {
+        itemView?.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, story.link)
+            if (intent.resolveActivity(it.context.packageManager) != null) {
+                it.context.startActivity(intent)
+            }
+        }
+    }
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var textViewHeadline: TextView =
+                itemView.findViewById(R.id.listitem_stories_headline)
+        var textViewDateTime: TextView =
+                itemView.findViewById(R.id.listitem_stories_datetime)
+        var textViewSection: TextView =
+                itemView.findViewById(R.id.listitem_stories_section)
+        var textViewAuthor: TextView =
+                itemView.findViewById(R.id.listitem_stories_author)
     }
 
 }
